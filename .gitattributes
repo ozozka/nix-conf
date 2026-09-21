@@ -5,4 +5,5 @@
 *.jpg binary
 *.jpeg binary
 
-templates/*/** linguist-vendored
+# child directories of templates
+templates/*/** linguist-detectable=false
