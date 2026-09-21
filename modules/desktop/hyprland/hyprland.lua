@@ -110,9 +110,10 @@ hl.config {
     -- resolve_binds_by_sym
     repeat_rate = 60,
     repeat_delay = 240,
-    sensitivity = 0.3,
+    sensitivity = 0.0,
     accel_profile = "adaptive",
     natural_scroll = true,
+    scroll_factor = 2.0,
     follow_mouse = 1,
 
     touchpad = {
@@ -193,6 +194,13 @@ hl.gesture {
   action = "workspace",
 }
 
+hl.window_rule {
+  name = "float-quickshell-polkit",
+  match = { title = "^quickshell-polkit$" },
+  float = true,
+  center = true,
+}
+
 local mainMod = "SUPER"
 
 hl.bind(
@@ -200,16 +208,19 @@ hl.bind(
   hl.dsp.exec_cmd "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"
 )
 
+hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "qs ipc call launcher toggle applications")
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd "qs ipc call launcher toggle clipboard")
+hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "qs ipc call launcher toggle power")
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd "qs ipc call notifications toggle")
+hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd "qs ipc call lock lock")
+
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd "alacritty")
-hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "fuzzel")
+-- hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "fuzzel")
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd "nautilus")
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd "grim")
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd "hyprpicker --autocopy --notify")
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd "cliphist list | fuzzel --dmenu --width 60 | cliphist decode | wl-copy")
-hl.bind(
-  mainMod .. " + Escape",
-  hl.dsp.exec_cmd "selected=$(printf '%s\n' '⎋ Lock' '🆥 Monitors' '⏼ Reboot' '⏻ Shutdown' '⏾ Suspend' '⏎ Exit' | fuzzel --dmenu); case \"$selected\" in '⎋ Lock') hyprlock ;; '🆥 Monitors') niri msg action power-off-monitors ;; '⏼ Reboot') systemctl reboot ;; '⏻ Shutdown') systemctl poweroff ;; '⏾ Suspend') systemctl suspend-then-hibernate ;; '⏎ Exit') niri msg action quit ;; esac"
-)
+-- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd "cliphist list | fuzzel --dmenu --width 60 | cliphist decode | wl-copy")
+-- hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "selected=$(printf '%s\n' '⎋ Lock' '🆥 Monitors' '⏼ Reboot' '⏻ Shutdown' '⏾ Suspend' '⏎ Exit' | fuzzel --dmenu); case \"$selected\" in '⎋ Lock') hyprlock ;; '🆥 Monitors') niri msg action power-off-monitors ;; '⏼ Reboot') systemctl reboot ;; '⏻ Shutdown') systemctl poweroff ;; '⏾ Suspend') systemctl suspend-then-hibernate ;; '⏎ Exit') niri msg action quit ;; esac")
 
 hl.bind(mainMod .. " + H", hl.dsp.focus { direction = "left" })
 hl.bind(mainMod .. " + L", hl.dsp.focus { direction = "right" })

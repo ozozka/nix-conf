@@ -1,0 +1,28 @@
+pragma Singleton
+
+import Quickshell
+import QtQuick
+
+Singleton {
+  readonly property color colP: @colP@
+  readonly property color colS: @colS@
+  readonly property color colF: @colF@
+  readonly property color colM: @colM@
+  readonly property color colO: @colO@
+  readonly property color colB: @colB@
+
+  readonly property string fontSans: @fontSans@
+  readonly property string fontSerif: @fontSerif@
+  readonly property string fontMono: @fontMono@
+
+  readonly property real fontSizeB: @fontSizeB@
+  readonly property real fontSizeH: @fontSizeH@
+  readonly property real fontSizeT: @fontSizeT@
+
+  readonly property int spaceS: @spaceS@
+  readonly property int spaceM: @spaceM@
+  readonly property int spaceL: @spaceL@
+
+  readonly property bool blur: @blur@
+  readonly property string wallpaper: @wallpaper@
+}

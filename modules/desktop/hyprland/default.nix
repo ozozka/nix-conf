@@ -18,14 +18,6 @@
       fi
     '';
 
-    systemPackages = with pkgs; [
-      hyprpicker
-      hyprpolkitagent
-      hyprpwcenter
-      hyprshutdown
-      hyprtoolkit
-    ];
-
     etc = {
       "xdg/hypr/stubs".source = "${pkgs.hyprland}/share/hypr/stubs";
       "xdg/hypr/hyprland.lua".source = ./hyprland.lua;

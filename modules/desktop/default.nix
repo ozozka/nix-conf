@@ -5,13 +5,13 @@
     ./emacs
     ./hyprland
     ./quickshell
+    ./qutebrowser
     ./zen
     ./alacritty.nix
     ./audio.nix
     ./clipboard.nix
     ./cursor.nix
     ./fonts.nix
-    ./fuzzel.nix
   ];
 
   security.pam.services.login.enableGnomeKeyring = true;
