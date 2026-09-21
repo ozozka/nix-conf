@@ -1,3 +1,5 @@
+@import url("ozozka-theme.css");
+
 :root {
   --oz-fs-s: 10.8px;
   --oz-fs-m: 13.2px;
@@ -6,13 +8,6 @@
   --oz-lay-s: 6px;
   --oz-lay-m: 12px;
   --oz-lay-b: 36px;
-
-  --oz-col-p: #09bea8;
-  --oz-col-s: #ff3c5b;
-  --oz-col-f: #ffffff;
-  --oz-col-m: #7e8180;
-  --oz-col-o: #101212;
-  --oz-col-b: #000000;
 
   *:not(.titlebar-buttonbox-container *) {
     font-family: sans !important;
@@ -98,7 +93,7 @@ scrollbox:nth-child(5) {
   border-radius: var(--oz-lay-m) !important;
   &[selected] {
     background-color: var(--oz-col-o) !important;
-    color: var(--oc-col-f) !important;
+    color: var(--oz-col-f) !important;
   }
 }
 
