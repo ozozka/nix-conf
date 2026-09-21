@@ -1,12 +1,11 @@
 { pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfreePackages = [ "apple_cursor" ];
   environment = {
-    systemPackages = with pkgs; [ apple-cursor ];
+    systemPackages = with pkgs; [ vanilla-dmz ];
     sessionVariables = {
-      XCURSOR_THEME = "macOS";
-      XCURSOR_SIZE = "20";
+      XCURSOR_THEME = "DMZ-White";
+      XCURSOR_SIZE = "24";
     };
   };
 }
