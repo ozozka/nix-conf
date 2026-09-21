@@ -1,3 +1,9 @@
+# Project Commands
+# Usage: just <recipe>
+# Run `just --list` to see all available recipes.
+
+# Deployment and daily usage commands
+
 # Build with current host name
 [default]
 [group('main')]
@@ -30,19 +36,35 @@ info:
     nix run .#info
 
 # Show flake outputs
-[group('dev')]
+[group('main')]
 show:
     nix flake show --all-systems
 
-# Check flake outputs
-[group('dev')]
+# Quality and checks
+
+# Fix + Gate
+[group('qual')]
+qual: fix ci
+
+# Full check
+[group('qual')]
+ci: check
+
+# Check format, lint, and flake outputs.
+[group('qual')]
 check:
     nix flake check --all-systems --show-trace
 
-# Format
-[group('dev')]
+# Format and lint
+[group('qual')]
+fix: fmt
+
+# Format and lint
+[group('qual')]
 fmt:
     nix fmt
+
+# Packages and development
 
 # Generate ssh key
 [group('dev')]
