@@ -1,66 +1,45 @@
 { pkgs }:
 let
-  project = "system-config";
-
   base = {
     packages = with pkgs; [ just ];
-
     env = { };
-
     shellHook = "";
   };
 
   shells = {
-    nix = {
-      packages = with pkgs; [ nixd ];
-    };
-
-    docs = {
-      packages = with pkgs; [ zensical ];
-    };
-
-    lua = {
-      packages = with pkgs; [ lua-language-server ];
+    dev = {
+      packages = with pkgs; [
+        nixd
+        lua-language-server
+        ty
+      ];
     };
   };
+
+  inherit (pkgs) lib;
+  inherit (builtins) attrValues;
 in
 builtins.mapAttrs
   (
     shellName: shell:
-    let
-      name = "${project}_${shellName}_shell";
-      packages = pkgs.lib.unique (base.packages ++ (shell.packages or [ ]));
-      shellHook = pkgs.lib.concatStringsSep "\n" [
+    pkgs.mkShell rec {
+      LD_LIBRARY_PATH = lib.makeLibraryPath packages;
+      packages = lib.unique (base.packages ++ (shell.packages or [ ]));
+      env = (base.env or { }) // (shell.env or { });
+      shellHook = lib.concatStringsSep "\n" [
         base.shellHook
         (shell.shellHook or "")
-        ''echo "> ${name}"''
+        ''echo "- ${shellName}"''
       ];
-      env = (base.env or { }) // (shell.env or { });
-      LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath packages;
-    in
-    pkgs.mkShell {
-      inherit
-        name
-        packages
-        env
-        shellHook
-        LD_LIBRARY_PATH
-        ;
     }
   )
   (
     shells
     // {
       default = {
-        packages = pkgs.lib.unique (
-          pkgs.lib.flatten (map (shell: shell.packages or [ ]) (builtins.attrValues shells))
-        );
-        env = pkgs.lib.foldl' (acc: env: acc // env) { } (
-          map (shell: shell.env or { }) (builtins.attrValues shells)
-        );
-        shellHook = pkgs.lib.concatStringsSep "\n" (
-          map (shell: shell.shellHook or "") (builtins.attrValues shells)
-        );
+        packages = lib.unique (lib.flatten (map (s: s.packages or [ ]) (attrValues shells)));
+        env = lib.foldl' (acc: env: acc // env) { } (map (s: s.env or { }) (attrValues shells));
+        shellHook = lib.concatStringsSep "\n" (map (s: s.shellHook or "") (attrValues shells));
       };
     }
   )
