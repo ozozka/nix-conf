@@ -1,17 +1,27 @@
-_: {
-  environment.shellAliases = {
-    gs = "git status --short --branch";
-    ga = "git add";
-    gc = "git commit";
-    gp = "git push";
-    gpu = "git pull";
-    gd = "git diff";
-    gdt = "git difftool";
-    gl = "git log --oneline -6";
-    gi = "git diff --stat";
-    gb = "git branch";
-    gch = "git checkout";
-    gm = "git merge";
+{ pkgs, ... }:
+
+{
+  environment = {
+    systemPackages = with pkgs; [ gh ];
+
+    sessionVariables = {
+      GH_TELEMETRY = "0";
+    };
+
+    shellAliases = {
+      gs = "git status --short --branch";
+      ga = "git add";
+      gc = "git commit";
+      gp = "git push";
+      gpu = "git pull";
+      gd = "git diff";
+      gdt = "git difftool";
+      gl = "git log --oneline -6";
+      gi = "git diff --stat";
+      gb = "git branch";
+      gch = "git checkout";
+      gm = "git merge";
+    };
   };
 
   programs.git = {
@@ -19,10 +29,10 @@ _: {
     config = {
       init.defaultBranch = "main";
       pull.rebase = true;
-      safe.directory = "/etc/nixos";
+      push.autoSetupRemote = true;
       user = {
         name = "ozozka";
-        email = "ozkayaoguzhan67@gmail.com";
+        email = "ozkaya.ogzhn@gmail.com";
       };
 
       diff.tool = "nvimdiff";
