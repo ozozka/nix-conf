@@ -32,10 +32,10 @@ in
           family = config.ozozka.theme.fonts.mono;
           style = "Regular";
         };
-        size = config.ozozka.theme.font-size.b / 10;
+        size = config.ozozka.theme.font-size.m / 10;
         offset = {
           x = 0;
-          y = 3;
+          y = 4;
         };
       };
 
