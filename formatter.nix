@@ -12,10 +12,17 @@ pkgs.treefmt.withConfig {
           pkgs.writeShellApplication {
             name = "justfmt";
             runtimeInputs = [ pkgs.just ];
-            text = "just --fmt";
+            text = ''
+              for f in "$@"; do
+                just --fmt --justfile "$f"
+              done
+            '';
           }
         );
-        includes = [ "justfile" ];
+        includes = [
+          "justfile"
+          "*/justfile"
+        ];
       };
 
       stylua = {
@@ -34,10 +41,30 @@ pkgs.treefmt.withConfig {
         ];
       };
 
+      qmlformat = {
+        command = "${pkgs.qt6.qtdeclarative}/bin/qmlformat";
+        includes = [ "*.qml" ];
+        options = [
+          "--inplace"
+          "--indent-width"
+          "2"
+          "--column-width"
+          "120"
+        ];
+      };
+
+      ruff-format = {
+        command = pkgs.lib.getExe pkgs.ruff;
+        includes = [ "*.py" ];
+        options = [ "format" ];
+      };
+
       prettier = {
         command = lib.getExe pkgs.prettier;
-        includes = [ "*" ];
-        excludes = [ "*.nix" ];
+        includes = [
+          "*.md"
+          "*.css"
+        ];
         options = [
           "--write"
           "--ignore-unknown"
