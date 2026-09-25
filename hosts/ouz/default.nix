@@ -8,7 +8,6 @@ inputs.nixpkgs.lib.nixosSystem {
     desktop
 
     hardware-brightness
-    hardware-logitech
     hardware-nvidia
     hardware-swap
     hardware-wifi
@@ -52,6 +51,8 @@ inputs.nixpkgs.lib.nixosSystem {
       ozozka.home.users = {
         ouz = {
           emacs = true;
+          opencode = true;
+          qutebrowser = true;
         };
       };
     }
