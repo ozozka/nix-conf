@@ -131,24 +131,6 @@ in
       };
     };
 
-    spacing = {
-      s = lib.mkOption {
-        type = lib.types.int;
-        default = 6;
-        description = "Small spacing.";
-      };
-      m = lib.mkOption {
-        type = lib.types.int;
-        default = 12;
-        description = "Medium spacing.";
-      };
-      l = lib.mkOption {
-        type = lib.types.int;
-        default = 30;
-        description = "Large spacing.";
-      };
-    };
-
     fonts = {
       sans = lib.mkOption {
         type = lib.types.str;
@@ -173,20 +155,68 @@ in
     };
 
     font-size = {
-      b = lib.mkOption {
+      t = lib.mkOption {
+        type = lib.types.int;
+        default = 105;
+        description = "Tiny font size.";
+      };
+      s = lib.mkOption {
         type = lib.types.int;
         default = 120;
-        description = "Body size.";
+        description = "Small font size.";
+      };
+      m = lib.mkOption {
+        type = lib.types.int;
+        default = 150;
+        description = "Medium font size.";
+      };
+      l = lib.mkOption {
+        type = lib.types.int;
+        default = 180;
+        description = "Large font size.";
+      };
+      x = lib.mkOption {
+        type = lib.types.int;
+        default = 240;
+        description = "Extra font size.";
       };
       h = lib.mkOption {
         type = lib.types.int;
-        default = 144;
-        description = "Heading size.";
+        default = 270;
+        description = "Huge font size.";
       };
+    };
+
+    dim = {
       t = lib.mkOption {
         type = lib.types.int;
-        default = 240;
-        description = "Title size.";
+        default = 5;
+        description = "Tiny dim.";
+      };
+      s = lib.mkOption {
+        type = lib.types.int;
+        default = 12;
+        description = "Small dim.";
+      };
+      m = lib.mkOption {
+        type = lib.types.int;
+        default = 30;
+        description = "Medium dim.";
+      };
+      l = lib.mkOption {
+        type = lib.types.int;
+        default = 72;
+        description = "Large dim.";
+      };
+      x = lib.mkOption {
+        type = lib.types.int;
+        default = 144;
+        description = "Extra dim.";
+      };
+      h = lib.mkOption {
+        type = lib.types.int;
+        default = 360;
+        description = "Huge dim.";
       };
     };
   };
