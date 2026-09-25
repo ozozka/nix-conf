@@ -11,44 +11,42 @@ Scope {
   id: launcherModule
 
   property string mode: "applications"
-  property var clipboardEntries: []
   property string pendingPowerAction: ""
-  property string errorMessage: ""
 
   readonly property var powerEntries: [
     {
       key: "lock",
-      name: "Lock",
+      name: "⎋ Lock",
       command: ["qs", "ipc", "call", "lock", "lock"],
       destructive: false
     },
     {
       key: "monitors",
-      name: "Turn off monitors",
+      name: "🆥 Monitors",
       command: ["hyprctl", "dispatch", "dpms", "off"],
       destructive: false
     },
     {
       key: "suspend",
-      name: "Suspend",
+      name: "⏾ Suspend",
       command: ["qs", "ipc", "call", "lock", "suspend"],
       destructive: false
     },
     {
       key: "logout",
-      name: "Exit session",
+      name: "⏎ Logout",
       command: ["hyprctl", "dispatch", "exit"],
       destructive: true
     },
     {
       key: "reboot",
-      name: "Reboot",
+      name: "⏼ Reboot",
       command: ["systemctl", "reboot"],
       destructive: true
     },
     {
       key: "shutdown",
-      name: "Shutdown",
+      name: "⏻ Shutdown",
       command: ["systemctl", "poweroff"],
       destructive: true
     }
@@ -60,20 +58,16 @@ Scope {
   }
 
   function open(requestedMode) {
-    if (!["applications", "clipboard", "power"].includes(requestedMode))
+    if (!["applications", "power"].includes(requestedMode))
       return;
     mode = requestedMode;
     pendingPowerAction = "";
-    errorMessage = "";
     search.text = "";
     results.currentIndex = 0;
 
     const targetScreen = focusedScreen();
     if (targetScreen)
       launcher.screen = targetScreen;
-
-    if (mode === "clipboard")
-      cliphistList.exec(["cliphist", "list"]);
 
     launcher.visible = true;
     Qt.callLater(() => search.forceActiveFocus());
@@ -82,7 +76,6 @@ Scope {
   function close() {
     launcher.visible = false;
     pendingPowerAction = "";
-    errorMessage = "";
     search.text = "";
   }
 
@@ -103,11 +96,6 @@ Scope {
     if (mode === "applications") {
       entry.application.execute();
       close();
-      return;
-    }
-
-    if (mode === "clipboard") {
-      clipboardCopy.exec(["bash", "-o", "pipefail", "-c", "cliphist decode \"$1\" | wl-copy", "bash", entry.id]);
       return;
     }
 
@@ -137,35 +125,6 @@ Scope {
   }
   }
 
-    Process {
-      id: cliphistList
-      stdout: StdioCollector {
-        onStreamFinished: {
-          launcherModule.clipboardEntries = text.split("\n").filter(line => line.length > 0).map(line => {
-            const tab = line.indexOf("\t");
-            if (tab < 1)
-              return null;
-            const id = line.slice(0, tab);
-            return {
-              key: `clipboard-${id}`,
-              id: id,
-              name: line.slice(tab + 1)
-            };
-          }).filter(entry => entry !== null);
-        }
-      }
-    }
-
-    Process {
-      id: clipboardCopy
-      onExited: (exitCode, exitStatus) => {
-        if (exitCode === 0)
-          launcherModule.close();
-        else
-          launcherModule.errorMessage = "Clipboard copy failed";
-      }
-    }
-
     ScriptModel {
       id: resultModel
       objectProp: "key"
@@ -181,8 +140,6 @@ Scope {
             icon: application.icon,
             application: application
           }));
-        } else if (launcherModule.mode === "clipboard") {
-          entries = launcherModule.clipboardEntries;
         } else {
           entries = launcherModule.powerEntries;
         }
@@ -219,7 +176,7 @@ Scope {
           anchors.topMargin: T.spaceM
           anchors.horizontalCenter: parent.horizontalCenter
           width: 480
-          height: T.spaceL * 2 + Math.min(results.count, 6) * 42 + T.spaceM + (errorText.visible ? T.spaceL : 0)
+          height: T.spaceL * 2 + Math.min(results.count, 6) * 42 + T.spaceM
 
           TextInput {
             id: search
@@ -264,7 +221,7 @@ Scope {
           ListView {
             id: results
             anchors {
-              top: errorText.visible ? errorText.bottom : search.bottom
+              top: search.bottom
               topMargin: T.spaceS
               left: parent.left
               right: parent.right
@@ -329,25 +286,6 @@ Scope {
                 }
               }
             }
-          }
-
-          Text {
-            id: errorText
-            anchors {
-              top: search.bottom
-              left: parent.left
-              right: parent.right
-              margins: T.spaceS
-            }
-            height: T.spaceL
-            visible: launcherModule.errorMessage.length > 0
-            color: T.colS
-            font {
-              family: T.fontSans
-              pointSize: T.fontSizeB
-            }
-            horizontalAlignment: Text.AlignHCenter
-            text: launcherModule.errorMessage
           }
         }
       }

@@ -8,34 +8,41 @@
     ./qutebrowser
     ./zen
     ./alacritty.nix
-    ./audio.nix
-    ./clipboard.nix
-    ./cursor.nix
     ./fonts.nix
   ];
 
-  security.pam.services.login.enableGnomeKeyring = true;
+  security = {
+    pam.services.login.enableGnomeKeyring = true;
+    rtkit.enable = true;
+  };
 
   services = {
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     # udisks2.enable = true;
-    # blueman.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      wireplumber.enable = true;
+    };
   };
 
   programs = {
     thunar.enable = true;
   };
 
-  # programs.hyprlock.enable = true;
+  environment = {
+    sessionVariables = {
+      XCURSOR_THEME = "DMZ-White";
+      XCURSOR_SIZE = "24";
+    };
 
-  environment.systemPackages = with pkgs; [
-    # nautilus
-    mpv
-
-    hyprpicker
-    # hyprpwcenter
-    # hyprshutdown
-    # hyprtoolkit
-  ];
+    systemPackages = with pkgs; [
+      mpv
+      vanilla-dmz
+      wl-clipboard
+    ];
+  };
 }

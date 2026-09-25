@@ -71,8 +71,6 @@ local monitors = {
 monitors[1]()
 
 -- hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
--- hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
--- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
 
 hl.config {
   general = {
@@ -82,7 +80,7 @@ hl.config {
     allow_tearing = false,
   },
   decoration = {
-    rounding = 6, -- default 0
+    rounding = 0,
     inactive_opacity = 0.92,
     -- dim_inactive = true,
     -- dim_strength = 0.36,
@@ -102,7 +100,7 @@ hl.config {
   },
   animations = { enabled = false },
   input = {
-    kb_layout = "tr,us",
+    kb_layout = "us,tr",
     kb_variant = "",
     kb_model = "",
     kb_options = "caps:swapescape,grp:win_space_toggle",
@@ -203,24 +201,14 @@ hl.window_rule {
 
 local mainMod = "SUPER"
 
-hl.bind(
-  mainMod .. " + Y",
-  hl.dsp.exec_cmd "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"
-)
-
 hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "qs ipc call launcher toggle applications")
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd "qs ipc call launcher toggle clipboard")
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "qs ipc call launcher toggle power")
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd "qs ipc call notifications toggle")
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd "qs ipc call lock lock")
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd "alacritty")
--- hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "fuzzel")
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd "nautilus")
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd "grim")
-hl.bind(mainMod .. " + U", hl.dsp.exec_cmd "hyprpicker --autocopy --notify")
--- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd "cliphist list | fuzzel --dmenu --width 60 | cliphist decode | wl-copy")
--- hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "selected=$(printf '%s\n' '⎋ Lock' '🆥 Monitors' '⏼ Reboot' '⏻ Shutdown' '⏾ Suspend' '⏎ Exit' | fuzzel --dmenu); case \"$selected\" in '⎋ Lock') hyprlock ;; '🆥 Monitors') niri msg action power-off-monitors ;; '⏼ Reboot') systemctl reboot ;; '⏻ Shutdown') systemctl poweroff ;; '⏾ Suspend') systemctl suspend-then-hibernate ;; '⏎ Exit') niri msg action quit ;; esac")
 
 hl.bind(mainMod .. " + H", hl.dsp.focus { direction = "left" })
 hl.bind(mainMod .. " + L", hl.dsp.focus { direction = "right" })
@@ -254,8 +242,8 @@ hl.define_submap("display", function ()
   end
 end)
 
-hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true })
-hl.bind(mainMod .. " + period", hl.dsp.exec_cmd "playerctl play-pause", { locked = true })
+hl.bind(mainMod .. " + Minus", hl.dsp.exec_cmd "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true })
+hl.bind(mainMod .. " + Period", hl.dsp.exec_cmd "playerctl play-pause", { locked = true })
 hl.bind(mainMod .. " + Right", hl.dsp.exec_cmd "playerctl next", { locked = true })
 hl.bind(mainMod .. " + Left", hl.dsp.exec_cmd "playerctl previous", { locked = true })
 hl.bind(mainMod .. " + Up", hl.dsp.exec_cmd "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 6%+", { locked = true })
@@ -263,12 +251,12 @@ hl.bind(mainMod .. " + Down", hl.dsp.exec_cmd "wpctl set-volume @DEFAULT_AUDIO_S
 
 hl.bind(
   "XF86AudioRaiseVolume",
-  hl.dsp.exec_cmd "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+  hl.dsp.exec_cmd "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 6%+",
   { locked = true, repeating = true }
 )
 hl.bind(
   "XF86AudioLowerVolume",
-  hl.dsp.exec_cmd "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+  hl.dsp.exec_cmd "wpctl set-volume @DEFAULT_AUDIO_SINK@ 6%-",
   { locked = true, repeating = true }
 )
 hl.bind(
