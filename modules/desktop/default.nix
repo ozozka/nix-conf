@@ -30,7 +30,6 @@
   # programs.hyprlock.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # my.pkgs.helium
     # nautilus
     mpv
 
