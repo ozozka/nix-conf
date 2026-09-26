@@ -44,8 +44,7 @@
                            (subscribe-level . 6)))))
               my-gnus-feed-topics))))
   (dolist (topic (append '("Gnus" "feed") my-gnus-feed-topics))
-    (unless (assoc topic gnus-topic-alist)
-      (push (list topic) gnus-topic-alist)))
+    (unless (assoc topic gnus-topic-alist) (push (list topic) gnus-topic-alist)))
   (gnus-topic-check-topology)
   (cl-labels
       ((subscribe
@@ -54,34 +53,22 @@
            (gnus-subscribe-group name nil method)
            (gnus-set-active name '(1 . 0))
            (gnus-subscribe-topics name))))
-    (when-let* ((configured-method
-                 (assq 'nnrss gnus-secondary-select-methods))
-                (feeds
-                 (cadr
-                  (assq 'nnrss-group-alist
-                        (cddr configured-method)))))
-      (let ((method (format "%s:%s" (car configured-method)
-                            (cadr configured-method))))
+    (when-let* ((configured-method (assq 'nnrss gnus-secondary-select-methods))
+                (feeds (cadr (assq 'nnrss-group-alist (cddr configured-method)))))
+      (let ((method (format "%s:%s" (car configured-method) (cadr configured-method))))
         (dolist (feed feeds)
-          (subscribe (gnus-group-prefixed-name (car feed) configured-method)
-                     method))))
+          (subscribe (gnus-group-prefixed-name (car feed) configured-method) method))))
     (dolist (configured-method gnus-secondary-select-methods)
       (when (eq (car configured-method) 'nnatom)
         (when-let* ((title-function
-                     (cadr
-                      (assq 'nnatom-read-title-function
-                            (cddr configured-method)))))
+                     (cadr (assq 'nnatom-read-title-function (cddr configured-method)))))
           (subscribe
-           (gnus-group-prefixed-name
-            (funcall title-function nil) configured-method)
+           (gnus-group-prefixed-name (funcall title-function nil) configured-method)
            (gnus-method-to-server configured-method)))))
     (dolist (topic my-gnus-feed-topics)
       (let* ((method `(nnvirtual ,(my-gnus--feed-source-regexp topic)))
-             (name (gnus-group-prefixed-name
-                    (format "feed.%s" topic) method)))
-        (if (gnus-group-entry name)
-            (gnus-close-server method)
-          (subscribe name method))))))
+             (name (gnus-group-prefixed-name (format "feed.%s" topic) method)))
+        (if (gnus-group-entry name) (gnus-close-server method) (subscribe name method))))))
 
 (use-package smtpmail
   :ensure nil
@@ -117,9 +104,7 @@
                  (article 72))))
   (defun gnus-user-format-function-g (header)
     (let ((xref (or (mail-header-xref header) "")))
-      (if (string-match "\\.\\([^.:]+\\):[0-9]+[[:space:]]*\\'" xref) ; :\\([^:]+\\):[0-9]+[[:space:]]*\\'
-          (match-string 1 xref)
-        "")))
+      (if (string-match "\\.\\([^.:]+\\):[0-9]+[[:space:]]*\\'" xref) (match-string 1 xref) "")))
 
   :hook
   ((gnus-group-mode . gnus-topic-mode)
@@ -129,10 +114,7 @@
   :custom
   (shr-use-colors nil)
   (shr-use-fonts nil)
-  ;; (gnus-permanently-visible-groups "^nnvirtual:")
-  ;; (gnus-group-list-inactive-groups t)
   (gnus-large-newsgroup nil)
-  ;; (gnus-fetch-old-headers t)
   (gnus-always-force-window-configuration t)
   (gnus-face-1 'gnus-header-name)
   (gnus-face-2 `gnus-header-from)
@@ -140,8 +122,6 @@
   (gnus-article-time-format "%Y-%m-%d %H:%M:%S %u")
   (gnus-article-date-headers '(user-defined lapsed))
   (gnus-treat-date 'head)
-  ;; (gnus-show-threads t)
-  ;; (gnus-article-sort-functions '((not gnus-article-sort-by-date)))
   (gnus-thread-sort-functions '(gnus-thread-sort-by-number gnus-thread-sort-by-most-recent-date))
   (gnus-subthread-sort-functions '(gnus-thread-sort-by-number gnus-thread-sort-by-date))
   (gnus-group-line-format "%1{%-5t%-5y%}%3{%S%B%}%(%*%g%)\n") ;  3.1.1 Group Line Speciication
@@ -169,11 +149,6 @@
    '((nnrss ""
             (nnrss-group-alist
              (
-              ;; ("feed.news.Nikkei Asia" "https://asia.nikkei.com/rss/feed/nar")
-              ;; ("feed.news.Al Jazeera" "https://www.aljazeera.com/xml/rss/all.xml")
-              ;; ("feed.news.Deutsche Welle" "https://rss.dw.com/rdf/rss-en-all")
-              ;; ("feed.news.Hürriyet" "https://www.hurriyet.com.tr/rss/anasayfa")
-              ;; ("feed.news.HaberTürk" "https://www.haberturk.com/rss")
               ("feed.news.The Economist" "https://www.economist.com/finance-and-economics/rss.xml")
               ("feed.news.Bloomberg" "https://www.bloomberg.com/feeds/news.rss")
               ("feed.news.Wall Street Journal" "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain")
@@ -188,14 +163,11 @@
               ("feed.news.TRT" "https://www.trthaber.com/sondakika_articles.rss")
 
               ("feed.tech.TechRepublic" "https://www.techrepublic.com/rssfeeds/articles/")
-              ("feed.tech.The Tech Edvocate" "https://www.thetechedvocate.org/feed/")
               ("feed.tech.TechSpot" "https://www.techspot.com/backend.xml")
               ("feed.tech.The Verge" "https://www.theverge.com/rss/partner/subscriber-only-full-feed/rss.xml")
-              ("feed.tech.SD Times" "https://sdtimes.com/feed/")
               ("feed.tech.Engadget" "https://www.engadget.com/feed/")
               ("feed.tech.InfoQ" "https://feed.infoq.com/")
               ("feed.tech.The Register" "https://www.theregister.com/?lab_viewport=rss")
-              ("feed.tech.FOSS Post" "https://fosspost.org/feed/")
               ("feed.tech.Phoronix" "https://www.phoronix.com/rss.php")
               ("feed.tech.The New Stack" "https://thenewstack.io/feed/")
               ("feed.tech.Ars Technica" "https://feeds.arstechnica.com/arstechnica/index")
@@ -236,40 +208,23 @@
               ("feed.buzz.Barry Knapp" "https://ironsidesmacro.substack.com/feed")
               ("feed.buzz.Jim Paulsen" "https://paulsenperspectives.substack.com/feed")
               ("feed.buzz.Matthew Klein" "https://theovershoot.co/feed")
-
-              ("feed.buzz.GitHub Engineering Blog" "https://github.blog/engineering/feed/")
-              ("feed.buzz.Netflix Tech Blog" "https://netflixtechblog.com/feed")
-
               ("feed.buzz.Pragmatic Engineer" "https://newsletter.pragmaticengineer.com/feed")
-              ("feed.buzz.The Algorithmic Bridge" "https://www.thealgorithmicbridge.com/feed")
               ("feed.buzz.itsfoss" "https://feed.itsfoss.com/")
-              ("feed.buzz.The Daily WTF" "https://feeds.feedburner.com/TheDailyWtf")
               ("feed.buzz.A List Apart" "https://alistapart.com/main/feed/")
-              ("feed.buzz.Mountain Goat Software" "https://www.mountaingoatsoftware.com/blog/rss")
               ("feed.buzz.Scrum Blog" "https://www.scrum.org/resources/blog/rss.xml")
-              ("feed.buzz.Code and Pepper" "https://codeandpepper.com/blog/feed")
               ("feed.buzz.Pragdave" "https://articles.pragdave.me/feed")
               ("feed.buzz.DZone" "https://feeds.dzone.com/home")
-
-              ("feed.buzz.Daily Dev" "https://daily.dev/rss.xml")
               ("feed.buzz.Lobsters" "https://lobste.rs/rss")
               ("feed.buzz.Hacker News" "https://news.ycombinator.com/rss")
               ("feed.buzz.Stack Overflow Blog" "https://stackoverflow.blog/feed/")
-              ("feed.buzz.Dev Community" "https://dev.to/feed")
               ("feed.buzz.LWN Comments" "https://lwn.net/headlines/Comments")
-
-              ("feed.buzz.NixOS Discourse Topics" "https://meta.discourse.org/latest.rss")
-              ("feed.buzz.NixOS Discourse Posts" "https://meta.discourse.org/posts.rss")
-
               ("feed.buzz.Ruslan" "https://codelearn.me/feed.xml")
               ("feed.buzz.Gary Marcus" "https://garymarcus.substack.com/feed")
               ("feed.buzz.Dan Luu" "https://danluu.com/atom.xml")
               ("feed.buzz.Kent Beck" "https://newsletter.kentbeck.com/feed")
               ("feed.buzz.Protesilaos" "https://protesilaos.com/master.xml")
-              ("feed.buzz.Rahul Juliato" "https://rahuljuliato.com/rss.xml")
-              ("feed.buzz.Karthinks" "https://karthinks.com/index.xml"))))
+              ("feed.buzz.Rahul Juliato" "https://rahuljuliato.com/rss.xml"))))
      (nnatom "simonwillison.net/atom/everything/" (nnatom-read-title-function (lambda (_group) "feed.buzz.Simon Willison")))
-     (nnatom "jvns.ca/atom.xml" (nnatom-read-title-function (lambda (_group) "feed.buzz.Julia Evans")))
      (nnatom "martinfowler.com/feed.atom" (nnatom-read-title-function (lambda (_group) "feed.buzz.Martin Fowler"))))))
 
 (provide 'my-net)

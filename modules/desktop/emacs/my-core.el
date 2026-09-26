@@ -22,9 +22,7 @@
   ("C-c z" . (lambda () (interactive) (ansi-term (getenv "SHELL") nil)))
   ("C-c =" . count-words)
   ("C-c w" . delete-trailing-whitespace)
-  ("C-c s" . speedbar)
   ("C-c t" . toggle-frame-tab-bar)
-  ("C-c n" . eval-buffer)
   ("C-c m" . (lambda () (interactive) (flymake-start t)))
   ("C-c C-m" . (lambda (directory)
                  (interactive (list (read-directory-name "Trust directory: " default-directory default-directory t)))
@@ -32,11 +30,7 @@
                  (message "Trusted content: %s" trusted-content)))
 
   :config
-  ;; (require `server)
-  ;; (unless (server-running-p) (server-start))
   (load custom-file 'noerror)
-  (make-directory (expand-file-name "backups/" user-emacs-directory) t)
-  (make-directory (expand-file-name "auto-saves/" user-emacs-directory) t)
   (fset 'yes-or-no-p 'y-or-n-p)
   (prefer-coding-system 'utf-8)
   (set-language-environment "UTF-8")
@@ -44,32 +38,25 @@
   (cua-mode 1)
   (show-paren-mode 1)
   (column-number-mode 1)
-  (size-indication-mode 1)
   (global-auto-revert-mode 1)
   (blink-cursor-mode -1)
   (window-divider-mode -1)
   (fringe-mode '(0 . 0))
 
   :custom
-  (debug-on-error t)
-  (warning-minimum-level :debug)
-
   (void-text-area-pointer 'arrow)
   (x-pointer-shape 'text)
   (x-sensitive-text-pointer-shape 'hand)
-
   (initial-scratch-message nil)
   (select-enable-clipboard t)
   (select-enable-primary t)
   (indent-tabs-mode nil)
   (tab-width 2)
-  (tab-stop-list (number-sequence 2 200 2))
+  (tab-stop-list (number-sequence 2 300 2))
   (display-line-numbers-type 'relative)
   (sentence-end-double-space nil)
-  (completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
-  (create-lockfiles nil)
   (ring-bell-function 'ignore)
   (scroll-margin 3)
   (scroll-conservatively 101)
@@ -77,8 +64,9 @@
   (initial-scratch-message nil)
   (ring-bell-function 'ignore)
   (line-spacing '(0.03 . 0.03)) ; 0.60 0.72
-  (backup-directory-alist `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
-  (auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-saves/" user-emacs-directory) t)))
+  (create-lockfiles nil)
+  (make-backup-files nil)
+  (auto-save-default nil)
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
 
   (mode-line-format
@@ -92,8 +80,6 @@
                (`(t nil) '((t :inherit flymake-warning-echo :weight bold))) ; flymake-error-echo
                (`(nil t) '((t :inherit mode-line-inactive)))
                ('((t :inherit mode-line :weight bold))))))
-     " "
-     (:propertize "%I" face mode-line-inactive)
      " "
      (:eval
       (cond
@@ -232,7 +218,6 @@
   (completion-auto-select t)
   (completion-eager-update t)
   (completion-eager-display t)
-  ;; (minibuffer-visible-completions 'up-down)
   (completion-ignore-case t)
   (completion-show-help nil)
   (completion-styles '(basic flex initials))
@@ -246,24 +231,7 @@
   (minibuffer-electric-default-mode t)
   (completions-detailed t)
   :config
-  (global-completion-preview-mode 1)) ; inline preview, sometimes noisy
-
-(use-package speedbar
-  :ensure nil
-  :commands speedbar
-  :custom
-  (speedbar-window-default-width 30)
-  (speedbar-window-max-width 30)
-  (speedbar-prefer-window t)
-  (speedbar-window-dedicated-window t)
-  (speedbar-window-side 'left)
-  (speedbar-use-images nil)
-  (speedbar-hide-button-brackets-flag t)
-  (speedbar-use-imenu-flag t)
-  (speedbar-show-unknown-files t)
-  (speedbar-indentation-width 2)
-  (speedbar-directory-unshown-regexp "\\`\\.\\.?\\'")
-  (speedbar-file-unshown-regexp "\\`\\.\\.?\\'"))
+  (global-completion-preview-mode 1))
 
 (use-package epg
   :ensure nil
@@ -388,7 +356,7 @@
 (use-package prog-mode
   :ensure nil
   :hook
-  (prog-mode . subword-mode) ; superword-mode
+  (prog-mode . subword-mode)
   (prog-mode . flymake-mode)
   (prog-mode . electric-pair-local-mode)
   (prog-mode . display-line-numbers-mode))
