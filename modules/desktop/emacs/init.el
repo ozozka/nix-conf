@@ -1,22 +1,13 @@
 ;;; init.el --- Emacs config -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;
+;;; Code:
 
-
-(load (expand-file-name "my-constants.el" user-emacs-directory))
-
-(let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
-  (add-to-list 'load-path default-directory)
-  (normal-top-level-add-subdirs-to-load-path))
-
-(require 'my-core)
-(require 'my-feat)
-(require 'my-modes)
-(require 'my-editor)
-(require 'my-extra)
-(require 'my-env)
+(require 'my-options (expand-file-name "my-options.el" user-emacs-directory))
+(require 'my-core (expand-file-name "my-core.el" user-emacs-directory))
+(require 'my-modes (expand-file-name "my-modes.el" user-emacs-directory))
+(require 'my-env (expand-file-name "my-env.el" user-emacs-directory))
+(require 'my-net (expand-file-name "my-net.el" user-emacs-directory))
 (load-theme 'my t)
-
 
 ;;; init.el ends here

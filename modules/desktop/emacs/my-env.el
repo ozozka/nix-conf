@@ -1,12 +1,10 @@
 ;;; my-env.el --- Load direnv environments into buffers -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;
-
+;;; Code:
 
 (require 'json)
 (require 'subr-x)
-
 
 (defgroup my-env nil
   "Buffer-local direnv integration."
@@ -19,30 +17,19 @@
 
 (defvar my-env-mode)
 
-
 (defconst my-env--json-null (make-symbol "my-env-json-null"))
-
 (defconst my-env--json-false (make-symbol "my-env-json-false"))
 
-(defvar-local my-env-status 'inactive
-  "Current direnv state for this buffer.")
-
+(defvar-local my-env-status 'inactive "Current direnv state for this buffer.")
 (defvar-local my-env--base-process-environment nil)
-
 (defvar-local my-env--base-exec-path nil)
-
 (defvar-local my-env--process-environment-was-local nil)
-
 (defvar-local my-env--exec-path-was-local nil)
-
 (defvar-local my-env--base-captured-p nil)
-
 (defvar-local my-env--environment-file nil)
-
 (defvar-local my-env--disabled nil)
 
 (put 'my-env--disabled 'permanent-local t)
-
 
 (defun my-env--set-status (status)
   "Set the current buffer environment STATUS."
@@ -333,11 +320,7 @@ the exit status, standard output, and standard error."
         (when my-env-mode
           (my-env-mode -1))))))
 
-
 (my-env-global-mode 1)
 
-
 (provide 'my-env)
-
-
 ;;; my-env.el ends here
