@@ -95,7 +95,7 @@ in
   options.ozozka.theme = {
     wallpaper = lib.mkOption {
       type = lib.types.path;
-      default = "${pkgs.ozozka.ozozka-assets}/share/wallpapers/horizon.jpg";
+      default = "${pkgs.ozozka.ozozka-assets}/share/wallpapers/swirls.jpg";
       description = "Wallpaper image.";
     };
 
