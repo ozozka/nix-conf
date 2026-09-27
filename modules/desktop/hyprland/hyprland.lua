@@ -206,19 +206,17 @@ hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "qs ipc call launcher toggle pow
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd "qs ipc call notifications toggle")
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd "qs ipc call lock lock")
 
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd "grim")
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd "thunar")
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd "emacsclient -c")
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd "alacritty")
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd "nautilus")
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd "grim")
 
 hl.bind(mainMod .. " + H", hl.dsp.focus { direction = "left" })
 hl.bind(mainMod .. " + L", hl.dsp.focus { direction = "right" })
 hl.bind(mainMod .. " + K", hl.dsp.focus { direction = "up" })
 hl.bind(mainMod .. " + J", hl.dsp.focus { direction = "down" })
 
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
-
-hl.bind(mainMod .. " + W", hl.dsp.window.float { action = "toggle" })
+hl.bind(mainMod .. " + G", hl.dsp.window.float { action = "toggle" })
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen { mode = "fullscreen", action = "toggle" })
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
@@ -231,6 +229,9 @@ for i = 1, 6 do
   hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move { workspace = i })
 end
 
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus { workspace = "e+1" })
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus { workspace = "e-1" })
 
@@ -242,8 +243,8 @@ hl.define_submap("display", function ()
   end
 end)
 
-hl.bind(mainMod .. " + Minus", hl.dsp.exec_cmd "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true })
-hl.bind(mainMod .. " + Period", hl.dsp.exec_cmd "playerctl play-pause", { locked = true })
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true })
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd "playerctl play-pause", { locked = true })
 hl.bind(mainMod .. " + Right", hl.dsp.exec_cmd "playerctl next", { locked = true })
 hl.bind(mainMod .. " + Left", hl.dsp.exec_cmd "playerctl previous", { locked = true })
 hl.bind(mainMod .. " + Up", hl.dsp.exec_cmd "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 6%+", { locked = true })

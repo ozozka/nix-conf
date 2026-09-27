@@ -141,7 +141,7 @@ c.input.insert_mode.auto_load = True  # Automatically enter insert mode if an ed
 # c.input.links_included_in_focus_chain = True ## Include hyperlinks in the keyboard focus chain when tabbing.
 # c.input.match_counts = True # Interpret number prefixes as counts for bindings.
 # c.input.media_keys = True # Whether the underlying Chromium should handle media keys. On Linux, disabling this also disables Chromium's MPRIS integration.
-c.input.spatial_navigation = True  # Enable spatial navigation. Spatial navigation consists in the ability to navigate between focusable elements, such as hyperlinks and form controls, on a web page by using the Left, Right, Up and Down arrow keys.
+# c.input.spatial_navigation = False  # Enable spatial navigation. Spatial navigation consists in the ability to navigate between focusable elements, such as hyperlinks and form controls, on a web page by using the Left, Right, Up and Down arrow keys.
 
 # c.keyhint.blacklist = [] # Type: List of String Keychains that shouldn't be shown in the keyhint dialog. Globs are supported, so `;*` will blacklist all keychains starting with `;`. Use `*` to disable keyhints.
 # c.keyhint.delay = 500
@@ -205,9 +205,7 @@ c.tabs.close_mouse_button = "right"  # right, middle, none
 # c.tabs.close_mouse_button_on_bar = 'new-tab' # close pressed outside any tabs. new-tab, close-current, close-last, ignore
 c.tabs.favicons.scale = 0.83
 # c.tabs.favicons.show = 'always' # always, never, pinned
-c.tabs.focus_stack_size = (
-    30  # Maximum stack size to remember for tab switches (-1 for no maximum).
-)
+c.tabs.focus_stack_size = 30
 c.tabs.indicator.padding = {
     "top": theme.DIM_T,
     "bottom": theme.DIM_T,
@@ -216,10 +214,8 @@ c.tabs.indicator.padding = {
 }
 c.tabs.indicator.width = theme.DIM_T
 # c.tabs.last_close = 'ignore' # ignore, blank, startpage, default-page, close
-c.tabs.mode_on_change = (
-    "restore"  # what mode to apply when switching tabs. persists, restore, normal
-)
-# c.tabs.mousewheel_switching = True # Switch between tabs using the mouse wheel.
+c.tabs.mode_on_change = "restore"  # mode when switching tabs. persists, restore, normal
+# c.tabs.mousewheel_switching = True  # Switch between tabs using the mouse wheel.
 # c.tabs.new_position.stacking = True # Stack related tabs on top of each other when opened consecutively.
 # c.tabs.new_position.related = 'next'
 c.tabs.new_position.unrelated = "last"  # last, first, next, prev

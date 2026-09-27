@@ -9,18 +9,7 @@
     };
 
     shellAliases = {
-      gs = "git status --short --branch";
-      ga = "git add";
-      gc = "git commit";
-      gp = "git push";
-      gpu = "git pull";
-      gd = "git diff";
-      gdt = "git difftool";
-      gl = "git log --oneline -6";
-      gi = "git diff --stat";
-      gb = "git branch";
-      gch = "git checkout";
-      gm = "git merge";
+      g = "git";
     };
   };
 
@@ -31,10 +20,17 @@
       pull.rebase = true;
       push.autoSetupRemote = true;
       user = {
-        name = "ozozka";
+        name = "Oğuzhan Özkaya";
         email = "ozkaya.ogzhn@gmail.com";
       };
 
+      alias = {
+        s = "status --short --branch";
+        l = "log --oneline -6";
+        ld = "log --oneline --graph --decorate --all";
+        i = "diff --stat";
+      };
+      
       diff.tool = "nvimdiff";
       difftool.nvimdiff.cmd = ''nvim -d "$LOCAL" "$REMOTE"'';
       difftool = {

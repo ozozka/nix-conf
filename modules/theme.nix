@@ -125,9 +125,7 @@ in
       tokens = lib.mkOption {
         type = lib.types.attrs;
         default = { };
-        description = ''
-          Color tokens. Defaults are selected according to my.theme.variant.
-        '';
+        description = "Default colors according to my.theme.variant.";
       };
     };
 
@@ -157,7 +155,7 @@ in
     font-size = {
       t = lib.mkOption {
         type = lib.types.int;
-        default = 105;
+        default = 90;
         description = "Tiny font size.";
       };
       s = lib.mkOption {

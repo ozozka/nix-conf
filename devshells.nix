@@ -12,6 +12,10 @@ let
         nixd
         lua-language-server
         ty
+        just-lsp
+        marksman
+        vscode-langservers-extracted
+        bash-language-server
       ];
     };
   };

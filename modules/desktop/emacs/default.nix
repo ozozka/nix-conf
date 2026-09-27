@@ -28,6 +28,12 @@ in
             tree-sitter-cpp
             tree-sitter-css
             tree-sitter-dockerfile
+            tree-sitter-gitattributes
+            # tree-sitter-git-config
+            # tree-sitter-git-rebase
+            tree-sitter-gitattributes
+            # tree-sitter-gitcommit
+            tree-sitter-gitignore
             tree-sitter-html
             tree-sitter-javascript
             tree-sitter-jsdoc

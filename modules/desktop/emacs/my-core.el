@@ -23,6 +23,7 @@
   ("C-c =" . count-words)
   ("C-c w" . delete-trailing-whitespace)
   ("C-c t" . toggle-frame-tab-bar)
+  ("C-c k" . tab-line-close-tab)
   ("C-c m" . (lambda () (interactive) (flymake-start t)))
   ("C-c C-m" . (lambda (directory)
                  (interactive (list (read-directory-name "Trust directory: " default-directory default-directory t)))

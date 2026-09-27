@@ -15,14 +15,11 @@ let
     tree-sitter-csv
     tree-sitter-cuda
     tree-sitter-dockerfile
-    tree-sitter-dot
-    tree-sitter-embedded-template
     # tree-sitter-git-config
     # tree-sitter-git-rebase
-    # tree-sitter-gitattributes
+    tree-sitter-gitattributes
     # tree-sitter-gitcommit
-    # tree-sitter-gitignore
-    tree-sitter-go
+    tree-sitter-gitignore
     tree-sitter-html
     tree-sitter-ini
     tree-sitter-java
@@ -31,12 +28,9 @@ let
     tree-sitter-julia
     tree-sitter-just
     tree-sitter-kdl
-    tree-sitter-latex
     tree-sitter-log
     tree-sitter-make
     tree-sitter-nix
-    tree-sitter-opencl
-    tree-sitter-php
     tree-sitter-python
     tree-sitter-rust
     tree-sitter-sql

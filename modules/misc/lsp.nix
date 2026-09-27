@@ -8,7 +8,6 @@
     just-lsp
     marksman
     sqls
-    texlab
     yaml-language-server
   ];
 }
