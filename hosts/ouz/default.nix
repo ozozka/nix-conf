@@ -14,14 +14,13 @@ inputs.nixpkgs.lib.nixosSystem {
     hardware-bluetooth
 
     # misc-chatgpt
+    # misc-obs
     misc-gimp
     misc-loc
     misc-lsp
-    # misc-obs
-    misc-office
-    misc-opencode
-    misc-pi
     misc-steam
+    misc-pi
+    misc-office
 
     {
       system.stateVersion = "25.11";
