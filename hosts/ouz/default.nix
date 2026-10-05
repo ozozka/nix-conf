@@ -13,7 +13,6 @@ inputs.nixpkgs.lib.nixosSystem {
     hardware-wifi
     hardware-bluetooth
 
-    # misc-chatgpt
     # misc-obs
     misc-gimp
     misc-loc
@@ -38,6 +37,11 @@ inputs.nixpkgs.lib.nixosSystem {
         };
       };
 
+      fileSystems."/ozozka" = {
+        device = "/dev/disk/by-uuid/75bc2a26-dd71-4dde-b1ed-1bb86246bde4";
+        fsType = "ext4";
+      };
+
       users.users.ouz = {
         isNormalUser = true;
         description = "ouz";
@@ -50,7 +54,6 @@ inputs.nixpkgs.lib.nixosSystem {
       ozozka.home.users = {
         ouz = {
           emacs = true;
-          opencode = true;
           qutebrowser = true;
         };
       };
