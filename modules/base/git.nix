@@ -29,8 +29,9 @@
         l = "log --oneline -6";
         ld = "log --oneline --graph --decorate --all";
         i = "diff --stat";
+        ch = "diff --check";
       };
-      
+
       diff.tool = "nvimdiff";
       difftool.nvimdiff.cmd = ''nvim -d "$LOCAL" "$REMOTE"'';
       difftool = {
