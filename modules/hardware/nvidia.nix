@@ -1,4 +1,4 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 
 {
   nixpkgs.config.allowUnfreePackages = [
@@ -6,26 +6,35 @@
     "nvidia-settings"
   ];
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
+  services = {
+    xserver.videoDrivers = [ "nvidia" ];
+    udev.extraRules = ''
+      SUBSYSTEM=="drm", KERNEL=="card*", DRIVERS=="nvidia", SYMLINK+="dri/by-driver/nvidia-card"
+      SUBSYSTEM=="drm", KERNEL=="card*", DRIVERS=="i915", SYMLINK+="dri/by-driver/intel-card"
+    '';
   };
 
   # boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_drm" "nvidia_uvm" ];
   # hardware.nvidia.forceFullCompositionPipeline = true;
 
-  hardware.nvidia = {
-    nvidiaPersistenced = true;
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-    prime = {
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = pkgs.stdenv.hostPlatform.isx86_64;
+    };
+
+    nvidia = {
+      nvidiaPersistenced = true;
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
+      open = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      prime = {
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
     };
   };
 
@@ -44,11 +53,6 @@
       RemainAfterExit = true;
     };
   };
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="drm", KERNEL=="card*", DRIVERS=="nvidia", SYMLINK+="dri/by-driver/nvidia-card"
-    SUBSYSTEM=="drm", KERNEL=="card*", DRIVERS=="i915", SYMLINK+="dri/by-driver/intel-card"
-  '';
 
   environment.sessionVariables = {
     # AQ_DRM_DEVICES = "/dev/dri/by-driver/intel-card:/dev/dri/by-driver/nvidia-card";
