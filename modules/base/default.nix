@@ -121,7 +121,7 @@
     shellAliases = {
       l = "LC_COLLATE=C ls -ACx --group-directories-first --color=auto";
       # l = "ls -ACxX --group-directories-first --color=auto"; # -F (symbols)
-      c = "clear";
+      c = "printf '\\033c'";
       nd = "exec nix develop";
       nf = "nix flake";
       j = "just";
