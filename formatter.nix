@@ -3,7 +3,6 @@
 pkgs.treefmt.withConfig {
   settings = {
     tree-root-file = "flake.nix";
-    verbose = 1;
     on-unmatched = "debug";
 
     formatter = {
@@ -54,7 +53,7 @@ pkgs.treefmt.withConfig {
       };
 
       ruff-format = {
-        command = pkgs.lib.getExe pkgs.ruff;
+        command = lib.getExe pkgs.ruff;
         includes = [ "*.py" ];
         options = [ "format" ];
       };
@@ -62,13 +61,15 @@ pkgs.treefmt.withConfig {
       prettier = {
         command = lib.getExe pkgs.prettier;
         includes = [
-          "*.md"
+          "*.html"
           "*.css"
+          "*.js"
+          "*.ts"
+          "*.md"
         ];
         options = [
           "--write"
           "--ignore-unknown"
-          "--print-width=120"
           "--tab-width=2"
           "--semi=true"
           "--single-quote=false"
