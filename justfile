@@ -2,8 +2,6 @@
 # Usage: just <recipe>
 # Run `just --list` to see all available recipes.
 
-# Deployment and daily usage commands
-
 # Build with current host name
 [default]
 [group('main')]
@@ -12,7 +10,7 @@ build NAME="":
 
 # Built with a specific specialization
 [group('main')]
-specialization NAME:
+specialisation NAME:
     sudo nixos-rebuild switch --flake .# --specialisation {{ NAME }}
 
 # List generations
@@ -40,8 +38,6 @@ info:
 show:
     nix flake show --all-systems
 
-# Quality and checks
-
 # Fix + Gate
 [group('qual')]
 qual: fix check
@@ -56,14 +52,12 @@ check:
 fix:
     nix fmt
 
-# Packages and development
+# Generate hash for package
+[group('dev')]
+hash HASH:
+    nix hash convert --to sri --hash-algo sha256 {{ HASH }}
 
 # Generate ssh key
 [group('dev')]
 key:
     ssh-keygen
-
-# Generate hash for package
-[group('dev')]
-hash HASH:
-    nix hash convert --to sri --hash-algo sha256 {{ HASH }}

@@ -69,7 +69,8 @@ scrollbox:nth-child(5) {
 }
 
 /* remove split borders */
-#tabbrowser-tabpanels[zen-split-view="true"] .browserSidebarContainer.deck-selected {
+#tabbrowser-tabpanels[zen-split-view="true"]
+  .browserSidebarContainer.deck-selected {
   outline: var(--zen-colors-border) !important;
 }
 
@@ -81,7 +82,11 @@ scrollbox:nth-child(5) {
   }
   &[breakout="true"] {
     .urlbar-background {
-      background: color-mix(in srgb, var(--oz-col-b) 88%, transparent) !important;
+      background: color-mix(
+        in srgb,
+        var(--oz-col-b) 88%,
+        transparent
+      ) !important;
       backdrop-filter: none !important;
       border-radius: var(--oz-lay-m) !important;
       border: none !important;
