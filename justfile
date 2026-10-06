@@ -44,24 +44,16 @@ show:
 
 # Fix + Gate
 [group('qual')]
-qual: fix ci
+qual: fix check
 
-# Full check
-[group('qual')]
-ci: check
-
-# Check format, lint, and flake outputs.
+# Check flake outputs
 [group('qual')]
 check:
     nix flake check --all-systems --show-trace
 
 # Format and lint
 [group('qual')]
-fix: fmt
-
-# Format and lint
-[group('qual')]
-fmt:
+fix:
     nix fmt
 
 # Packages and development

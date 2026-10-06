@@ -80,6 +80,22 @@ pkgs.treefmt.withConfig {
         command = lib.getExe pkgs.nixf-diagnose;
         includes = [ "*.nix" ];
         options = [ "--auto-fix" ];
+        priority = -2;
+      };
+
+      statix = {
+        command = lib.getExe (
+          pkgs.writeShellApplication {
+            name = "statix-check";
+            runtimeInputs = [ pkgs.statix ];
+            text = ''
+              for file in "$@"; do
+                statix check "$file"
+              done
+            '';
+          }
+        );
+        includes = [ "*.nix" ];
         priority = -1;
       };
 
