@@ -1,3 +1,6 @@
 {
-  # mono.path = ./mono;
+  default = {
+    path = ./default;
+    description = "Empty template.";
+  };
 }
