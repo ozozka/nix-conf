@@ -34,18 +34,17 @@
     optimise = {
       automatic = true;
       persistent = true;
-      dates = "daily";
+      dates = "weekly";
     };
 
     gc = {
       automatic = true;
       persistent = true;
-      dates = "daily"; # "weekly", "01.00"
+      dates = "weekly";
       options = "--delete-older-than 6d";
     };
   };
 
-  environment.localBinInPath = true;
   systemd.enableStrictShellChecks = true;
 
   time.timeZone = "Europe/Istanbul";
@@ -118,9 +117,10 @@
   };
 
   environment = {
+    localBinInPath = true;
+
     shellAliases = {
-      l = "LC_COLLATE=C ls -ACx --group-directories-first --color=auto";
-      # l = "ls -ACxX --group-directories-first --color=auto"; # -F (symbols)
+      l = "LC_COLLATE=C ls -ACx --group-directories-first --color=auto"; # -F (symbols), -x
       c = "printf '\\033c'";
       nd = "exec nix develop";
       nf = "nix flake";
