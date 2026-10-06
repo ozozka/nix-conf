@@ -73,4 +73,8 @@ in
         value = act entry.path;
       }) (checkedEntries dir)
     );
+
+  perSystem =
+    nixpkgs: systems: f:
+    nixpkgs.lib.genAttrs systems (system: f (import nixpkgs { inherit system; }));
 }
