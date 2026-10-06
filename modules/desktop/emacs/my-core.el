@@ -16,12 +16,14 @@
   ("C-c SPC" . project-recompile)
   ("C-c C-SPC" . project-compile)
   ("C-c a" . project-async-shell-command)
+  ("C-c s" . project-save-some-buffers)
+  ("C-c f" . project-find-file)
   ("C-c d" . project-dired)
   ("C-c v" . project-vc-dir)
   ("C-c b" . ibuffer)
   ("C-c z" . (lambda () (interactive) (ansi-term (getenv "SHELL") nil)))
   ("C-c =" . count-words)
-  ("C-c w" . delete-trailing-whitespace)
+  ("C-c w" . whitespace-cleanup)
   ("C-c t" . toggle-frame-tab-bar)
   ("C-c k" . tab-line-close-tab)
   ("C-c m" . (lambda () (interactive) (flymake-start t)))
@@ -64,7 +66,7 @@
   (scroll-preserve-screen-position t)
   (initial-scratch-message nil)
   (ring-bell-function 'ignore)
-  (line-spacing '(0.03 . 0.03)) ; 0.60 0.72
+  (line-spacing '(0.03 . 0.03))
   (create-lockfiles nil)
   (make-backup-files nil)
   (auto-save-default nil)
@@ -192,7 +194,16 @@
                  (setq-local truncate-lines t)
                  (setq-local scroll-margin 0)
                  (setq-local scroll-conservatively 101)
-                 (setq-local scroll-step 1))))
+                 (setq-local scroll-step 1)))
+  :config
+  (keymap-set term-raw-map "C-S-c" #'kill-ring-save)
+  (keymap-set term-raw-map "C-S-v" #'term-paste)
+  (keymap-set term-raw-map "<escape>" (lambda () (interactive) (term-send-raw-string "\e")))
+  (keymap-set term-raw-map "S-<return>" (lambda () (interactive) (term-send-raw-string "\026\n")))
+  (dotimes (number 10)
+    (let ((key (format "M-%d" number)))
+      (keymap-set term-raw-map key
+                  (keymap-lookup global-map key)))))
 
 (use-package compile
   :ensure nil
@@ -260,99 +271,18 @@
   (flyspell-prog-text-faces
    '(font-lock-comment-face font-lock-doc-face)))
 
-(use-package eglot
+(use-package whitespace
   :ensure nil
-  :defer t
-  :hook
-  ((sh-mode
-    bash-ts-mode
-    c-mode
-    c-ts-mode
-    c++-mode
-    c++-ts-mode
-    css-mode
-    css-ts-mode
-    scss-mode
-    less-css-mode
-    dockerfile-mode
-    dockerfile-ts-mode
-    mhtml-mode
-    mhtml-ts-mode
-    js-mode
-    js-ts-mode
-    js-jsx-mode
-    typescript-ts-mode
-    tsx-ts-mode
-    js-json-mode
-    json-mode
-    json-ts-mode
-    jsonc-mode
-    just-ts-mode
-    lua-mode
-    lua-ts-mode
-    markdown-ts-mode
-    nix-ts-mode
-    python-mode
-    python-ts-mode
-    rust-mode
-    rust-ts-mode
-    sql-mode
-    context-mode
-    typst-ts-mode
-    yaml-mode
-    yaml-ts-mode)
-   . eglot-ensure)
-  :custom
-  (eglot-code-action-indications nil)
-  (eglot-documentation-renderer 'markdown-ts-view-mode)
   :config
-  (dolist
-      (entry
-       '((((css-mode :language-id "css")
-           (css-ts-mode :language-id "css")
-           (scss-mode :language-id "scss")
-           (less-css-mode :language-id "less"))
-          . ("vscode-css-language-server" "--stdio"))
-         (((dockerfile-mode :language-id "dockerfile")
-           (dockerfile-ts-mode :language-id "dockerfile"))
-          . ("docker-language-server" "start" "--stdio"))
-         (((mhtml-mode :language-id "html")
-           (mhtml-ts-mode :language-id "html"))
-          . ("vscode-html-language-server" "--stdio"))
-         (((js-mode :language-id "javascript")
-           (js-ts-mode :language-id "javascript")
-           (js-jsx-mode :language-id "javascriptreact")
-           (typescript-ts-mode :language-id "typescript")
-           (tsx-ts-mode :language-id "typescriptreact"))
-          . ("typescript-language-server" "--stdio"))
-         ((just-ts-mode :language-id "just") . ("just-lsp"))
-         ((markdown-ts-mode :language-id "markdown") . ("marksman" "server"))
-         ((nix-ts-mode :language-id "nix") . ("nixd"))
-         (((python-mode :language-id "python")
-           (python-ts-mode :language-id "python"))
-          . ("ty" "server"))
-         ((sql-mode :language-id "sql") . ("sqls"))
-         ((typst-ts-mode :language-id "typst") . ("tinymist"))))
-    (add-to-list 'eglot-server-programs entry)))
-
-(use-package treesit
-  :ensure nil
-  :init
-  (setopt treesit-enabled-modes
-          '(bash-ts-mode
-            c-ts-mode
-            c++-ts-mode
-            css-ts-mode
-            dockerfile-ts-mode
-            mhtml-ts-mode
-            js-ts-mode
-            json-ts-mode
-            lua-ts-mode
-            python-ts-mode
-            rust-ts-mode
-            tsx-ts-mode
-            typescript-ts-mode
-            yaml-ts-mode)))
+  (global-whitespace-mode 1)
+  :custom
+  (whitespace-style
+   '(face
+     trailing
+     empty
+     tabs
+     space-before-tab
+     space-after-tab)))
 
 (use-package prog-mode
   :ensure nil

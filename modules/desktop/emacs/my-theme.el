@@ -83,6 +83,9 @@
    `(font-lock-type-face ((t (:foreground ,my-theme-col-f))))
    `(font-lock-string-face ((t (:foreground ,my-theme-col-p))))
 
+   `(whitespace-trailing ((t (:background ,my-theme-col-s))))
+   `(whitespace-empty ((t (:background ,my-theme-col-o))))
+
    `(isearch ((t (:background ,my-theme-col-o :weight bold :underline (:color ,my-theme-col-s :style dashes)))))
    `(isearch-fail ((t (:foreground ,my-theme-col-s :weight bold))))
    `(lazy-highlight ((t (:background ,my-theme-col-o :weight bold :underline (:color ,my-theme-col-p :style dashes)))))

@@ -3,6 +3,100 @@
 ;;; Commentary:
 ;;; Code:
 
+(use-package eglot
+  :ensure nil
+  :defer t
+  :hook
+  ((sh-mode
+    bash-ts-mode
+    c-mode
+    c-ts-mode
+    c++-mode
+    c++-ts-mode
+    css-mode
+    css-ts-mode
+    scss-mode
+    less-css-mode
+    dockerfile-mode
+    dockerfile-ts-mode
+    mhtml-mode
+    mhtml-ts-mode
+    js-mode
+    js-ts-mode
+    js-jsx-mode
+    typescript-ts-mode
+    tsx-ts-mode
+    js-json-mode
+    json-mode
+    json-ts-mode
+    jsonc-mode
+    just-ts-mode
+    lua-mode
+    lua-ts-mode
+    markdown-ts-mode
+    nix-ts-mode
+    python-mode
+    python-ts-mode
+    rust-mode
+    rust-ts-mode
+    sql-mode
+    context-mode
+    typst-ts-mode
+    yaml-mode
+    yaml-ts-mode)
+   . eglot-ensure)
+  :custom
+  (eglot-code-action-indications nil)
+  (eglot-documentation-renderer 'markdown-ts-view-mode)
+  :config
+  (dolist
+      (entry
+       '((((css-mode :language-id "css")
+           (css-ts-mode :language-id "css")
+           (scss-mode :language-id "scss")
+           (less-css-mode :language-id "less"))
+          . ("vscode-css-language-server" "--stdio"))
+         (((dockerfile-mode :language-id "dockerfile")
+           (dockerfile-ts-mode :language-id "dockerfile"))
+          . ("docker-language-server" "start" "--stdio"))
+         (((mhtml-mode :language-id "html")
+           (mhtml-ts-mode :language-id "html"))
+          . ("vscode-html-language-server" "--stdio"))
+         (((js-mode :language-id "javascript")
+           (js-ts-mode :language-id "javascript")
+           (js-jsx-mode :language-id "javascriptreact")
+           (typescript-ts-mode :language-id "typescript")
+           (tsx-ts-mode :language-id "typescriptreact"))
+          . ("typescript-language-server" "--stdio"))
+         ((just-ts-mode :language-id "just") . ("just-lsp"))
+         ((markdown-ts-mode :language-id "markdown") . ("marksman" "server"))
+         ((nix-ts-mode :language-id "nix") . ("nixd"))
+         (((python-mode :language-id "python")
+           (python-ts-mode :language-id "python"))
+          . ("ty" "server"))
+         ((sql-mode :language-id "sql") . ("sqls"))
+         ((typst-ts-mode :language-id "typst") . ("tinymist"))))
+    (add-to-list 'eglot-server-programs entry)))
+
+(use-package treesit
+  :ensure nil
+  :init
+  (setopt treesit-enabled-modes
+          '(bash-ts-mode
+            c-ts-mode
+            c++-ts-mode
+            css-ts-mode
+            dockerfile-ts-mode
+            mhtml-ts-mode
+            js-ts-mode
+            json-ts-mode
+            lua-ts-mode
+            python-ts-mode
+            rust-ts-mode
+            tsx-ts-mode
+            typescript-ts-mode
+            yaml-ts-mode)))
+
 (use-package log-edit
   :defer t
   :hook
