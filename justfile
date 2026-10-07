@@ -1,7 +1,3 @@
-# Project Commands
-# Usage: just <recipe>
-# Run `just --list` to see all available recipes.
-
 # Build with current host name
 [default]
 [group('main')]
@@ -28,27 +24,22 @@ update:
 gc:
     sudo nix-collect-garbage -d
 
-# Run fastfetch
-[group('main')]
-info:
-    nix run .#info
-
 # Show flake outputs
 [group('main')]
 show:
     nix flake show --all-systems
 
 # Fix + Gate
-[group('qual')]
+[group('dev')]
 qual: fix check
 
 # Check flake outputs
-[group('qual')]
+[group('dev')]
 check:
     nix flake check --all-systems --show-trace
 
 # Format and lint
-[group('qual')]
+[group('dev')]
 fix:
     nix fmt
 
@@ -56,8 +47,3 @@ fix:
 [group('dev')]
 hash HASH:
     nix hash convert --to sri --hash-algo sha256 {{ HASH }}
-
-# Generate ssh key
-[group('dev')]
-key:
-    ssh-keygen
