@@ -8,6 +8,7 @@ let
     attrValues
     concatLists
     concatMap
+    concatStringsSep
     filter
     filterAttrs
     foldl'
@@ -28,33 +29,40 @@ let
     unique
     ;
 
-  fileType = types.submodule {
-    options = {
-      source = mkOption {
-        type = types.nullOr types.path;
-        default = null;
-        description = "Public, store-backed source file or directory. Do not use for secrets.";
-      };
-
-      text = mkOption {
-        type = types.nullOr types.lines;
-        default = null;
-        description = "Public, generated file contents. Do not use for secrets.";
-      };
-    };
-  };
+  fileType = types.either types.path (types.attrsOf fileType);
 
   profileType = types.submodule {
     options.files = mkOption {
       type = types.attrsOf fileType;
       default = { };
-      description = "Home-relative files supplied by this profile.";
+      description = "Home-relative targets mapped to public, store-backed source files or directories. Nested attribute sets group targets under a shared prefix. Do not use for secrets.";
     };
   };
 
   cfg = config.ozozka.home;
 
-  hasExactlyOneContent = file: (file.source != null) != (file.text != null);
+  # Keep declarations as a list until collision checks have seen every target.
+  # Check for paths first because derivations are also attribute sets.
+  flattenFiles =
+    prefix: files:
+    concatLists (
+      mapAttrsToList (
+        name: value:
+        let
+          components = prefix ++ [ name ];
+          target = concatStringsSep "/" components;
+        in
+        if types.path.check value then
+          [
+            {
+              inherit target;
+              source = value;
+            }
+          ]
+        else
+          flattenFiles components value
+      ) files
+    );
 
   isSafeTmpfilesValue =
     value:
@@ -106,15 +114,33 @@ let
     in
     go "" (splitString "/" target);
 
-  declaredFiles = concatLists (
-    mapAttrsToList (
-      profileName: profile:
-      mapAttrsToList (target: file: {
-        context = "home profile '${profileName}'";
-        inherit file target;
-      }) profile.files
-    ) cfg.profiles
-  );
+  resolveProfile =
+    profileName: profile:
+    let
+      declarations = flattenFiles [ ] profile.files;
+      targets = map (file: file.target) declarations;
+      validDeclarations = filter (file: isValidTarget file.target) declarations;
+      duplicates = duplicateValues targets;
+      fileAssertions = map (file: {
+        assertion = isValidTarget file.target;
+        message = "home profile '${profileName}' has invalid target '${file.target}'. Targets must be safe relative paths without empty, '.' or '..' components.";
+      }) declarations;
+      duplicateAssertion = {
+        assertion = duplicates == [ ];
+        message = "Home profile '${profileName}' contains duplicate targets after flattening: ${toString duplicates}.";
+      };
+    in
+    {
+      inherit
+        declarations
+        targets
+        validDeclarations
+        fileAssertions
+        duplicateAssertion
+        ;
+    };
+
+  resolvedProfiles = mapAttrs resolveProfile cfg.profiles;
 
   enabledProfileNames = activations: attrNames (filterAttrs (_: enabled: enabled) activations);
 
@@ -129,10 +155,13 @@ let
       account = config.users.users.${userName};
       enabledProfiles = enabledProfileNames activations;
       knownProfiles = filter (profileName: hasAttr profileName cfg.profiles) enabledProfiles;
-      fileSets = map (profileName: cfg.profiles.${profileName}.files) knownProfiles;
-      targets = concatMap attrNames fileSets;
-      mergedFiles = foldl' (files: profileFiles: files // profileFiles) { } fileSets;
-      files = filterAttrs (target: file: isValidTarget target && hasExactlyOneContent file) mergedFiles;
+      profiles = map (profileName: resolvedProfiles.${profileName}) knownProfiles;
+      targets = concatMap (profile: profile.targets) profiles;
+      files = listToAttrs (
+        map (file: nameValuePair file.target file.source) (
+          concatMap (profile: profile.validDeclarations) profiles
+        )
+      );
     in
     {
       inherit
@@ -145,16 +174,9 @@ let
 
   resolvedUsers = mapAttrs resolveUser configuredUsers;
 
-  fileAssertions = concatMap (declaration: [
-    {
-      assertion = isValidTarget declaration.target;
-      message = "${declaration.context} has invalid target '${declaration.target}'. Targets must be safe relative paths without empty, '.' or '..' components.";
-    }
-    {
-      assertion = hasExactlyOneContent declaration.file;
-      message = "${declaration.context} target '${declaration.target}' must define exactly one of 'source' or 'text'.";
-    }
-  ]) declaredFiles;
+  fileAssertions = concatMap (profile: profile.fileAssertions) (attrValues resolvedProfiles);
+
+  profileAssertions = map (profile: profile.duplicateAssertion) (attrValues resolvedProfiles);
 
   userReferenceAssertions = mapAttrsToList (userName: _: {
     assertion = hasAttr userName config.users.users;
@@ -227,10 +249,7 @@ let
   makeEtcEntries =
     _: resolved:
     mapAttrs' (
-      target: file:
-      nameValuePair "home-files/${resolved.account.name}/${target}" (
-        if file.source != null then { inherit (file) source; } else { inherit (file) text; }
-      )
+      target: source: nameValuePair "home-files/${resolved.account.name}/${target}" { inherit source; }
     ) resolved.files;
 
   etcEntries = foldl' (entries: userEntries: entries // userEntries) { } (
@@ -290,7 +309,11 @@ in
 
   config = {
     assertions =
-      fileAssertions ++ userReferenceAssertions ++ resolvedUserAssertions ++ crossUserAssertions;
+      fileAssertions
+      ++ profileAssertions
+      ++ userReferenceAssertions
+      ++ resolvedUserAssertions
+      ++ crossUserAssertions;
     environment.etc = etcEntries;
     systemd.tmpfiles.settings = tmpfilesSettings;
   };

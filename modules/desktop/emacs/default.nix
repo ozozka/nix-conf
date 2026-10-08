@@ -9,60 +9,60 @@ in
     ../../theme.nix
   ];
 
-  config = {
-    environment.systemPackages = with pkgs; [
-      mupdf
-      hunspellDicts.en_US
-      hunspellDicts.tr_TR
-      hunspell
-    ];
+  environment.systemPackages = with pkgs; [
+    mupdf
+    hunspellDicts.en_US
+    hunspellDicts.tr_TR
+    hunspell
+  ];
 
-    services.emacs = {
-      enable = true;
-      defaultEditor = true;
-      package = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: [
-        (epkgs.treesit-grammars.with-grammars (
-          grammars: with grammars; [
-            tree-sitter-bash
-            tree-sitter-c
-            tree-sitter-cpp
-            tree-sitter-css
-            tree-sitter-dockerfile
-            tree-sitter-gitattributes
-            # tree-sitter-git-config
-            # tree-sitter-git-rebase
-            tree-sitter-gitattributes
-            # tree-sitter-gitcommit
-            tree-sitter-gitignore
-            tree-sitter-html
-            tree-sitter-javascript
-            tree-sitter-jsdoc
-            tree-sitter-json
-            tree-sitter-just
-            tree-sitter-lua
-            tree-sitter-markdown
-            tree-sitter-markdown-inline
-            tree-sitter-nix
-            tree-sitter-python
-            tree-sitter-rust
-            tree-sitter-tsx
-            tree-sitter-typescript
-            tree-sitter-typst
-            tree-sitter-yaml
-          ]
-        ))
-      ]);
-    };
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    package = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: [
+      (epkgs.treesit-grammars.with-grammars (
+        grammars: with grammars; [
+          tree-sitter-bash
+          tree-sitter-c
+          tree-sitter-cpp
+          tree-sitter-css
+          tree-sitter-dockerfile
+          tree-sitter-gitattributes
+          # tree-sitter-git-config
+          # tree-sitter-git-rebase
+          tree-sitter-gitattributes
+          # tree-sitter-gitcommit
+          tree-sitter-gitignore
+          tree-sitter-html
+          tree-sitter-javascript
+          tree-sitter-jsdoc
+          tree-sitter-json
+          tree-sitter-just
+          tree-sitter-lua
+          tree-sitter-markdown
+          tree-sitter-markdown-inline
+          tree-sitter-nix
+          tree-sitter-python
+          tree-sitter-rust
+          tree-sitter-tsx
+          tree-sitter-typescript
+          tree-sitter-typst
+          tree-sitter-yaml
+        ]
+      ))
+    ]);
+  };
 
-    ozozka.home.profiles.emacs.files = {
-      ".config/emacs/early-init.el".source = ./early-init.el;
-      ".config/emacs/init.el".source = ./init.el;
-      ".config/emacs/my-core.el".source = ./my-core.el;
-      ".config/emacs/my-env.el".source = ./my-env.el;
-      ".config/emacs/my-modes.el".source = ./my-modes.el;
-      ".config/emacs/my-net.el".source = ./my-net.el;
-      ".config/emacs/my-theme.el".source = ./my-theme.el;
-      ".config/emacs/my-options.el".source = pkgs.writeText "my-options.el" ''
+  ozozka.home.profiles.emacs.files = {
+    ".config/emacs" = {
+      "early-init.el" = ./early-init.el;
+      "init.el" = ./init.el;
+      "my-core.el" = ./my-core.el;
+      "my-env.el" = ./my-env.el;
+      "my-modes.el" = ./my-modes.el;
+      "my-net.el" = ./my-net.el;
+      "my-theme.el" = ./my-theme.el;
+      "my-options.el" = pkgs.writeText "my-options.el" ''
         ;;; my-options.el --- Nix generated options -*- lexical-binding: t; -*-
 
         ;;; Commentary:
@@ -155,7 +155,7 @@ in
         (provide 'my-options)
         ;;; my-options.el ends here
       '';
-      ".config/emacs/tree-sitter/queries".source =
+      "tree-sitter/queries" =
         pkgs.runCommand "emacs-treesit-queries" { nativeBuildInputs = [ pkgs.perl ]; }
           ''
             mkdir -p "$out"/{nix,just,typst}
