@@ -1,9 +1,12 @@
 import QtQuick
+import Quickshell
 import "../services" as SV
 import ".."
 
 Text {
-  id: battery
+  TapHandler {
+    onTapped: Quickshell.execDetached(["qs", "ipc", "call", "power", "open"])
+  }
 
   readonly property bool charging: SV.BatteryStats.status === "Charging"
   readonly property bool full: SV.BatteryStats.status === "Full"

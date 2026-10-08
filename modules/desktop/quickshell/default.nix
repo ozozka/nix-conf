@@ -8,43 +8,64 @@
 let
   theme = config.ozozka.theme;
 
-  themeQml = pkgs.replaceVars ./T.qml.in {
-    colP = builtins.toJSON "#${theme.colors.tokens.p}";
-    colS = builtins.toJSON "#${theme.colors.tokens.s}";
-    colF = builtins.toJSON "#${theme.colors.tokens.f}";
-    colM = builtins.toJSON "#${theme.colors.tokens.m}";
-    colO = builtins.toJSON "#${theme.colors.tokens.o}";
-    colB = builtins.toJSON "#${theme.colors.tokens.hex-t1}${theme.colors.tokens.b}";
-    fontSans = builtins.toJSON theme.fonts.sans;
-    fontSerif = builtins.toJSON theme.fonts.serif;
-    fontMono = builtins.toJSON theme.fonts.mono;
-    fontSizeB = toString (theme.font-size.m / 10.0);
-    fontSizeH = toString (theme.font-size.l / 10.0);
-    fontSizeT = toString (theme.font-size.h / 10.0);
-    spaceS = toString theme.dim.s;
-    spaceM = toString (theme.dim.s * 2);
-    spaceL = toString theme.dim.m;
-    blur = lib.boolToString theme.colors.tokens.blur;
-    wallpaper = builtins.toJSON (toString theme.wallpaper);
+  quickshellSource = lib.fileset.toSource {
+    root = ./.;
+    fileset = lib.fileset.unions [
+      ./components
+      ./lib
+      ./modules
+      ./services
+      ./shell.qml
+      ./qmldir
+    ];
   };
 
-  quickshellConfig = pkgs.runCommand "quickshell-config" { } ''
-    mkdir -p "$out"
-    cp -r ${./components} "$out/components"
-    cp -r ${./lib} "$out/lib"
-    cp -r ${./modules} "$out/modules"
-    cp -r ${./services} "$out/services"
-    cp -r ${./widgets} "$out/widgets"
-    cp ${./shell.qml} "$out/shell.qml"
-    cp ${./qmldir} "$out/qmldir"
-    cp ${themeQml} "$out/T.qml"
+  themeQml = pkgs.writeTextDir "T.qml" ''
+    pragma Singleton
+
+    import Quickshell
+    import QtQuick
+
+    Singleton {
+      readonly property color colP: ${builtins.toJSON "#${theme.colors.tokens.p}"}
+      readonly property color colS: ${builtins.toJSON "#${theme.colors.tokens.s}"}
+      readonly property color colF: ${builtins.toJSON "#${theme.colors.tokens.f}"}
+      readonly property color colM: ${builtins.toJSON "#${theme.colors.tokens.m}"}
+      readonly property color colO: ${builtins.toJSON "#${theme.colors.tokens.o}"}
+      readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
+
+      readonly property string fontSans: ${builtins.toJSON theme.fonts.sans}
+      readonly property string fontSerif: ${builtins.toJSON theme.fonts.serif}
+      readonly property string fontMono: ${builtins.toJSON theme.fonts.mono}
+
+      readonly property real fontSizeB: ${toString (theme.font-size.m / 10.0)}
+      readonly property real fontSizeH: ${toString (theme.font-size.l / 10.0)}
+      readonly property real fontSizeT: ${toString (theme.font-size.h / 10.0)}
+
+      readonly property int spaceS: ${toString theme.dim.s}
+      readonly property int spaceM: ${toString (theme.dim.s * 2)}
+      readonly property int spaceL: ${toString theme.dim.m}
+
+      readonly property string wallpaper: ${builtins.toJSON (toString theme.wallpaper)}
+    }
   '';
+
+  quickshellConfig = pkgs.symlinkJoin {
+    name = "quickshell-config";
+    paths = [
+      quickshellSource
+      themeQml
+    ];
+  };
 in
 {
   imports = [ ../../theme.nix ];
 
   environment = {
-    systemPackages = with pkgs; [ quickshell ];
+    systemPackages = with pkgs; [
+      quickshell
+      gtk3
+    ];
     etc."xdg/quickshell".source = quickshellConfig;
   };
 

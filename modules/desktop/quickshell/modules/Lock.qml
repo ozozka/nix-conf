@@ -147,7 +147,6 @@ Scope {
           Rectangle {
             width: parent.width
             height: T.spaceL * 1.5
-            radius: T.spaceS
             color: T.colO
 
             TextInput {

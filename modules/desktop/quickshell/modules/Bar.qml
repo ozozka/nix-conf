@@ -18,9 +18,6 @@ Scope {
       WlrLayershell.namespace: "quickshell-bar"
 
       color: T.colB
-      BackgroundEffect.blurRegion: Region {
-        item: bar.contentItem
-      }
 
       implicitHeight: T.spaceL
       anchors {

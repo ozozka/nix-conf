@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import QtQuick.Layouts
 import ".."
 
 Surface {
@@ -17,7 +16,21 @@ Surface {
     return "";
   }
 
-  implicitHeight: content.implicitHeight + T.spaceM * 2
+  implicitHeight: content.implicitHeight + T.spaceM + T.spaceS
+
+  TapHandler {
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
+    onTapped: (eventPoint, button) => {
+      if (button === Qt.RightButton) {
+        card.notification.dismiss();
+      } else {
+        const actions = card.notification.actions;
+        const action = actions.find(action => action.identifier === "default") ?? actions[0];
+        if (action)
+          action.invoke();
+      }
+    }
+  }
 
   Column {
     id: content
@@ -44,14 +57,14 @@ Surface {
       }
 
       Column {
-        width: parent.width - (notificationImage.visible ? 36 + parent.spacing : 0) - closeButton.width
+        width: parent.width - (notificationImage.visible ? 36 + parent.spacing : 0)
         spacing: 2
 
         Text {
           width: parent.width
           color: T.colM
           font {
-            family: T.fontMono
+            family: T.fontSans
             pointSize: T.fontSizeB
           }
           elide: Text.ElideRight
@@ -63,30 +76,13 @@ Surface {
           width: parent.width
           color: T.colF
           font {
-            family: T.fontMono
+            family: T.fontSans
             pointSize: T.fontSizeB
             bold: true
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
           text: card.notification.summary
-        }
-      }
-
-      Text {
-        id: closeButton
-        width: T.spaceL
-        color: T.colM
-        font {
-          family: T.fontMono
-          pointSize: T.fontSizeB
-          bold: true
-        }
-        horizontalAlignment: Text.AlignHCenter
-        text: "x"
-
-        TapHandler {
-          onTapped: card.notification.dismiss()
         }
       }
     }
@@ -102,40 +98,6 @@ Surface {
       wrapMode: Text.Wrap
       textFormat: Text.PlainText
       text: card.notification.body
-    }
-
-    Row {
-      width: parent.width
-      spacing: T.spaceS
-      visible: card.notification.actions.length > 0
-
-      Repeater {
-        model: card.notification.actions
-
-        Rectangle {
-          required property var modelData
-          width: actionText.implicitWidth + T.spaceM * 2
-          height: T.spaceL
-          radius: T.spaceS
-          color: T.colO
-
-          Text {
-            id: actionText
-            anchors.centerIn: parent
-            color: T.colF
-            font {
-              family: T.fontMono
-              pointSize: T.fontSizeB
-            }
-            textFormat: Text.PlainText
-            text: modelData.text
-          }
-
-          TapHandler {
-            onTapped: modelData.invoke()
-          }
-        }
-      }
     }
   }
 }

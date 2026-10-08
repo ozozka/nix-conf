@@ -4,10 +4,14 @@ import "../lib" as LB
 import ".."
 
 Text {
+  LB.Units {
+    id: units
+  }
+
   color: T.colF
   font {
     family: T.fontMono
     pointSize: T.fontSizeB
   }
-  text: LB.Units.formatBytes(SV.MemoryStats.usedBytes)
+  text: units.formatBytes(SV.MemoryStats.usedBytes)
 }

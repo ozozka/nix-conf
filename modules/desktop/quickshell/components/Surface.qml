@@ -3,5 +3,4 @@ import ".."
 
 Rectangle {
   color: T.colB
-  radius: T.spaceS
 }

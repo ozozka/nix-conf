@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Notifications
 import Quickshell.Wayland
@@ -12,10 +11,7 @@ Scope {
 
   property var states: []
 
-  function focusedScreen() {
-    const monitor = Hyprland.focusedMonitor;
-    return Quickshell.screens.find(screen => Hyprland.monitorFor(screen) === monitor) ?? Quickshell.screens[0] ?? null;
-  }
+  required property var focusedScreen
 
   function enforcePopupLimit() {
     const visibleStates = states.filter(state => state.popupVisible);
@@ -36,7 +32,7 @@ Scope {
   function promote(state) {
     state.popupVisible = true;
     states = [state, ...states.filter(candidate => candidate !== state)];
-    const targetScreen = focusedScreen();
+    const targetScreen = focusedScreen;
     if (targetScreen)
       popupWindow.screen = targetScreen;
     enforcePopupLimit();
@@ -53,13 +49,13 @@ Scope {
 
   function setHistoryVisible(visible) {
     if (visible) {
-      const targetScreen = focusedScreen();
+      const targetScreen = focusedScreen;
       if (targetScreen)
         historyWindow.screen = targetScreen;
     }
     historyWindow.visible = visible;
     if (visible)
-      Qt.callLater(() => historyFocus.forceActiveFocus());
+      Qt.callLater(() => historyWindow.focusMenu());
   }
 
   NotificationServer {
@@ -226,103 +222,85 @@ Scope {
     }
   }
 
-  PanelWindow {
+  CM.MenuWindow {
     id: historyWindow
+    namespace: "quickshell-notification-center"
+    menuHeight: Math.min(640, height - T.spaceL * 2)
 
-    visible: false
-    color: "transparent"
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.namespace: "quickshell-notification-center"
-    WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.keyboardFocus: visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
-
-    anchors {
-      top: true
-      bottom: true
-      left: true
-      right: true
+    onKeyPressed: event => {
+      if (event.key === Qt.Key_Escape) {
+        notificationModule.setHistoryVisible(false);
+        event.accepted = true;
+      }
     }
 
-    FocusScope {
-      id: historyFocus
-      anchors.fill: parent
+    Text {
+      id: historyTitle
+      anchors {
+        top: parent.top
+        left: parent.left
+        margins: T.spaceM
+      }
+      color: T.colF
+      font {
+        family: T.fontMono
+        pointSize: T.fontSizeH
+        bold: true
+      }
+      text: "Notifications"
+    }
 
-      Keys.onEscapePressed: notificationModule.setHistoryVisible(false)
+    Text {
+      anchors {
+        top: parent.top
+        right: clearButton.left
+        margins: T.spaceM
+      }
+      color: T.colM
+      font {
+        family: T.fontMono
+        pointSize: T.fontSizeB
+      }
+      text: "close"
+      TapHandler {
+        onTapped: notificationModule.setHistoryVisible(false)
+      }
+    }
 
-      CM.Surface {
-        anchors.centerIn: parent
-        width: 480
-        height: Math.min(640, parent.height - T.spaceL * 2)
+    Text {
+      id: clearButton
+      anchors {
+        top: parent.top
+        right: parent.right
+        margins: T.spaceM
+      }
+      color: T.colM
+      font {
+        family: T.fontMono
+        pointSize: T.fontSizeB
+      }
+      text: "clear"
+      TapHandler {
+        onTapped: notificationModule.clearHistory()
+      }
+    }
 
-        Text {
-          id: historyTitle
-          anchors {
-            top: parent.top
-            left: parent.left
-            margins: T.spaceM
-          }
-          color: T.colF
-          font {
-            family: T.fontMono
-            pointSize: T.fontSizeH
-            bold: true
-          }
-          text: "Notifications"
-        }
+    ListView {
+      anchors {
+        top: historyTitle.bottom
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+        margins: T.spaceM
+      }
+      spacing: T.spaceS
+      clip: true
+      model: historyModel
 
-        Text {
-          anchors {
-            top: parent.top
-            right: clearButton.left
-            margins: T.spaceM
-          }
-          color: T.colM
-          font {
-            family: T.fontMono
-            pointSize: T.fontSizeB
-          }
-          text: "close"
-          TapHandler {
-            onTapped: notificationModule.setHistoryVisible(false)
-          }
-        }
-
-        Text {
-          id: clearButton
-          anchors {
-            top: parent.top
-            right: parent.right
-            margins: T.spaceM
-          }
-          color: T.colM
-          font {
-            family: T.fontMono
-            pointSize: T.fontSizeB
-          }
-          text: "clear"
-          TapHandler {
-            onTapped: notificationModule.clearHistory()
-          }
-        }
-
-        ListView {
-          anchors {
-            top: historyTitle.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-            margins: T.spaceM
-          }
-          spacing: T.spaceS
-          clip: true
-          model: historyModel
-
-          delegate: CM.NotificationCard {
-            required property var modelData
-            width: ListView.view.width
-            notificationState: modelData
-          }
-        }
+      delegate: CM.NotificationCard {
+        required property var modelData
+        width: ListView.view.width
+        notificationState: modelData
       }
     }
   }

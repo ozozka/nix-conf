@@ -1,11 +1,8 @@
 import QtQuick
-import QtQuick.Layouts
-import Quickshell
 import Quickshell.Hyprland
 import ".."
 
 Repeater {
-  id: workspaceLayout
   model: 6
 
   Text {

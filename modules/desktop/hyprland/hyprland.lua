@@ -201,8 +201,8 @@ hl.window_rule {
 
 local mainMod = "SUPER"
 
-hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "qs ipc call launcher toggle applications")
-hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "qs ipc call launcher toggle power")
+hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd "qs ipc call launcher toggle")
+hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd "qs ipc call power toggle")
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd "qs ipc call notifications toggle")
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd "qs ipc call lock lock")
 

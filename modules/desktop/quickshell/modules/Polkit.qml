@@ -5,15 +5,11 @@ import "../components" as CM
 import ".."
 
 Scope {
-  id: polkitModule
-
   PolkitAgent {
     id: agent
   }
 
   FloatingWindow {
-    id: dialog
-
     visible: agent.isActive
     title: "quickshell-polkit"
     color: "transparent"
@@ -103,7 +99,6 @@ Scope {
         Rectangle {
           width: parent.width
           height: T.spaceL * 1.5
-          radius: T.spaceS
           color: T.colO
 
           TextInput {
@@ -143,7 +138,6 @@ Scope {
           Rectangle {
             width: cancelText.implicitWidth + T.spaceM * 2
             height: T.spaceL
-            radius: T.spaceS
             color: T.colO
 
             Text {
@@ -165,9 +159,7 @@ Scope {
           Rectangle {
             width: authenticateText.implicitWidth + T.spaceM * 2
             height: T.spaceL
-            radius: T.spaceS
-            color: T.colP
-            opacity: agent.flow?.isResponseRequired ? 1 : 0.5
+            color: agent.flow?.isResponseRequired ? T.colP : T.colM
 
             Text {
               id: authenticateText
