@@ -54,6 +54,7 @@ inputs.nixpkgs.lib.nixosSystem {
       ozozka.home.users = {
         ouz = {
           emacs = true;
+          pi = true;
           qutebrowser = true;
         };
       };
