@@ -13,6 +13,7 @@ inputs.nixpkgs.lib.nixosSystem {
     hardware-swap
     hardware-wifi
     hardware-bluetooth
+    hardware-ppd
 
     # gui-obs
     gui-gimp
