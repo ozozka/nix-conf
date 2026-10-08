@@ -14,10 +14,10 @@ inputs.nixpkgs.lib.nixosSystem {
     hardware-wifi
     hardware-bluetooth
 
-    # misc-obs
-    misc-gimp
-    misc-steam
-    misc-office
+    # gui-obs
+    gui-gimp
+    gui-steam
+    gui-office
 
     {
       system.stateVersion = "25.11";
