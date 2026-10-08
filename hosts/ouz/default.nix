@@ -6,6 +6,7 @@ inputs.nixpkgs.lib.nixosSystem {
 
     base
     desktop
+    dev
 
     hardware-brightness
     hardware-nvidia
@@ -15,10 +16,7 @@ inputs.nixpkgs.lib.nixosSystem {
 
     # misc-obs
     misc-gimp
-    misc-loc
-    misc-lsp
     misc-steam
-    misc-pi
     misc-office
 
     {

@@ -15,7 +15,6 @@ in
   imports = [
     ../theme.nix
 
-    ./emacs
     ./hyprland
     ./quickshell
     ./qutebrowser
