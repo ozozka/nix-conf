@@ -18,8 +18,6 @@ in
 
       window = {
         decorations = "None";
-        opacity = col.tokens.t0;
-        blur = col.tokens.blur;
       };
 
       scrolling = {
@@ -35,7 +33,7 @@ in
         size = config.ozozka.theme.font-size.m / 10;
         offset = {
           x = 0;
-          y = 4;
+          y = config.ozozka.theme.dim.t;
         };
       };
 
