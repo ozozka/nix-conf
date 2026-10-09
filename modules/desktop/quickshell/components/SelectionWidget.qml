@@ -2,8 +2,9 @@ import QtQuick
 import QtQuick.Layouts
 import ".."
 
-Surface {
+Rectangle {
   id: widget
+  color: T.colO
   required property var menuWindow
   property var anchorItem: null
   property string title: ""

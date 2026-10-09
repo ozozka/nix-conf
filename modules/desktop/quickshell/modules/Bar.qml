@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 import "../components" as CM
+import "../services" as SV
 import ".."
 
 Scope {
@@ -35,22 +36,12 @@ Scope {
         CM.Submap {}
       }
 
-      Item {
+      Text {
         anchors.centerIn: parent
-        width: bar.showingDate ? date.implicitWidth : time.implicitWidth
-        height: bar.showingDate ? date.implicitHeight : time.implicitHeight
-
-        CM.Time {
-          id: time
-          anchors.centerIn: parent
-          visible: !bar.showingDate
-        }
-
-        CM.Date {
-          id: date
-          anchors.centerIn: parent
-          visible: bar.showingDate
-        }
+        text: bar.showingDate ? SV.Clock.date : SV.Clock.time
+        color: T.colF
+        font.family: T.fontMono
+        font.pointSize: T.fontSizeB
 
         TapHandler {
           onTapped: bar.showingDate = !bar.showingDate

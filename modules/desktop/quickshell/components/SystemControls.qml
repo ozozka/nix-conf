@@ -495,13 +495,8 @@ ColumnLayout {
       }
       AudioOptions {
         Layout.fillWidth: true
-        visible: controls.expanded === "output"
-        input: false
-      }
-      AudioOptions {
-        Layout.fillWidth: true
-        visible: controls.expanded === "input"
-        input: true
+        visible: controls.expanded === "output" || controls.expanded === "input"
+        input: controls.expanded === "input"
       }
     }
   }

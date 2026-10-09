@@ -3,7 +3,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import Quickshell.Wayland
-import "../components" as CM
 import ".."
 
 Scope {
@@ -123,7 +122,7 @@ Scope {
         source: Qt.resolvedUrl(T.wallpaper)
       }
 
-      CM.Surface {
+      Rectangle {
         color: T.colB
         anchors.centerIn: parent
         width: 360

@@ -10,7 +10,7 @@ Scope {
   id: menuModule
   required property var focusedScreen
   property string pendingAction: ""
-  property bool powerExpanded: false
+  readonly property bool powerExpanded: controls.expanded === "power"
   readonly property var powerEntries: [
     {
       key: "lock",
@@ -57,25 +57,16 @@ Scope {
   ]
 
   function dismissSelection() {
-    powerExpanded = false;
     pendingAction = "";
     controls.reset();
     applications.focusSearch();
   }
 
   function togglePower() {
-    const next = !powerExpanded;
-    controls.reset();
-    pendingAction = "";
-    powerExpanded = next;
-    if (next)
-      Qt.callLater(() => selection.forceActiveFocus());
-    else
-      applications.focusSearch();
+    controls.toggleDetails("power", powerButton);
   }
 
   function open() {
-    powerExpanded = false;
     pendingAction = "";
     controls.reset();
     if (focusedScreen)
@@ -91,7 +82,6 @@ Scope {
 
   function close() {
     panel.visible = false;
-    powerExpanded = false;
     pendingAction = "";
     applications.query = "";
     controls.reset();
@@ -142,16 +132,14 @@ Scope {
 
     CM.MenuWindow {
       id: panel
-      namespace: "quickshell-menu"
-      alignLeft: true
       menuWidth: Math.min(980, width - T.spaceM * 2)
       menuHeight: Math.min(content.height + T.spaceM * 2, Math.max(0, height - T.spaceL - T.spaceM * 2))
       onDismissRequested: menuModule.close()
       widgetContent: CM.SelectionWidget {
         id: selection
         menuWindow: panel
-        visible: panel.visible && (menuModule.powerExpanded || controls.expanded !== "")
-        anchorItem: menuModule.powerExpanded ? powerButton : controls.selectionAnchor
+        visible: panel.visible && controls.expanded !== ""
+        anchorItem: controls.selectionAnchor
         title: menuModule.powerExpanded ? "Power actions" : ({
                                                                wifi: "Wi-Fi",
                                                                bluetooth: "Bluetooth",
@@ -214,7 +202,6 @@ Scope {
                 height: implicitHeight
                 active: panel.visible
                 onDetailsRequested: {
-                  menuModule.powerExpanded = false;
                   menuModule.pendingAction = "";
                   if (expanded)
                     Qt.callLater(() => selection.forceActiveFocus());

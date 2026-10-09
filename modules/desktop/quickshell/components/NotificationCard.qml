@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell
 import ".."
 
-Surface {
+Rectangle {
   id: card
 
   required property var notificationState

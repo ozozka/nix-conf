@@ -10,7 +10,7 @@ Scope {
 
   Connections {
     target: SV.NotificationStore
-    function onPopupPromoted() {
+    function onPromoted() {
       if (focusedScreen)
         popupWindow.screen = focusedScreen;
       Qt.callLater(() => stack.contentY = 0);
@@ -19,7 +19,7 @@ Scope {
 
   ScriptModel {
     id: popupModel
-    values: SV.NotificationStore.popups
+    values: SV.NotificationStore.states
   }
 
   PanelWindow {

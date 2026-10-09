@@ -7,12 +7,11 @@ import Quickshell.Services.Notifications
 Singleton {
   id: store
   property var states: []
-  readonly property var popups: states
-  signal popupPromoted
+  signal promoted
 
   function promote(state) {
     states = [state, ...states.filter(candidate => candidate !== state)];
-    popupPromoted();
+    promoted();
   }
 
   function remove(state) {

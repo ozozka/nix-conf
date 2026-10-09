@@ -1,7 +1,6 @@
 import QtQuick
 import Quickshell
 import Quickshell.Services.Polkit
-import "../components" as CM
 import ".."
 
 Scope {
@@ -22,7 +21,8 @@ Scope {
         Qt.callLater(() => response.forceActiveFocus());
     }
 
-    CM.Surface {
+    Rectangle {
+      color: T.colO
       anchors.fill: parent
 
       Column {
