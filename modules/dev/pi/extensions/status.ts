@@ -117,6 +117,7 @@ export default function (pi: ExtensionAPI) {
   let requestProvider: string | undefined;
   let lastStatus: string | undefined;
   const usage = new Map<number, UsageWindow>();
+  let toolCalls = 0;
   let addedLines = 0;
   let removedLines = 0;
 
@@ -197,6 +198,8 @@ export default function (pi: ExtensionAPI) {
       );
     }
     const theme = context.ui.theme;
+    if (toolCalls > 0)
+      parts.push(`${toolCalls} ${toolCalls === 1 ? "call" : "calls"}`);
     if (addedLines > 0 || removedLines > 0) {
       parts.push(
         `${theme.fg("toolDiffAdded", `+${addedLines}`)} ${theme.fg("toolDiffRemoved", `-${removedLines}`)}`,
@@ -233,9 +236,16 @@ export default function (pi: ExtensionAPI) {
     requestProvider = undefined;
     lastStatus = undefined;
     usage.clear();
+    toolCalls = 0;
     addedLines = 0;
     removedLines = 0;
   }
+
+  pi.on("tool_execution_start", () => {
+    if (!context) return;
+    toolCalls++;
+    updateStatus();
+  });
 
   pi.on("tool_execution_end", (event) => {
     if (!context || event.toolName !== "edit" || event.isError) return;
