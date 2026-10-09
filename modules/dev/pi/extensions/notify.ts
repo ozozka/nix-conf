@@ -8,10 +8,6 @@ export default function (pi: ExtensionAPI) {
 
     try {
       const projectName = basename(ctx.cwd) || ctx.cwd;
-      const sessionName = ctx.sessionManager.getSessionName()?.trim();
-      const body = sessionName
-        ? `${projectName} - ${sessionName}`
-        : projectName;
 
       // NixOS supplies busctl through systemd; no terminal protocol or libnotify.
       const result = await pi.exec(
@@ -29,8 +25,8 @@ export default function (pi: ExtensionAPI) {
           "Pi", // Application name.
           "0", // Create a new notification.
           "", // Use the notification service's default icon.
-          "Pi - Done",
-          body,
+          projectName,
+          "Done",
           "0", // No actions.
           "0", // No hints.
           "-1", // Use the notification service's default expiration.
