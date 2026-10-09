@@ -3,14 +3,25 @@
 {
   imports = [
     ./nvim
-    ./boot.nix
     ./console.nix
     ./git.nix
     ./network.nix
     ./tmux.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      timeout = 3;
+      systemd-boot = {
+        enable = true;
+        editor = false;
+        configurationLimit = 6;
+        consoleMode = "auto";
+      };
+    };
+  };
 
   nix = {
     # firewall.enable = true;
