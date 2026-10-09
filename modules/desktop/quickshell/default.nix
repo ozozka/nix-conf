@@ -35,6 +35,7 @@ let
       readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
 
       readonly property string fontSans: ${builtins.toJSON theme.fonts.sans}
+      readonly property string fontSerif: ${builtins.toJSON theme.fonts.serif}
       readonly property string fontMono: ${builtins.toJSON theme.fonts.mono}
 
       readonly property real fontSizeB: ${toString (theme.font-size.m / 10.0)}
@@ -44,6 +45,7 @@ let
       readonly property int spaceS: ${toString theme.dim.s}
       readonly property int spaceM: ${toString (theme.dim.s * 2)}
       readonly property int spaceL: ${toString theme.dim.m}
+      readonly property int dimH: ${toString theme.dim.h}
 
       readonly property string wallpaper: ${builtins.toJSON (toString theme.wallpaper)}
     }

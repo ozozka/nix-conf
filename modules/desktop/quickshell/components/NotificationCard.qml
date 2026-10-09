@@ -18,7 +18,7 @@ Rectangle {
     return "";
   }
 
-  implicitHeight: content.implicitHeight + T.spaceM + T.spaceS
+  implicitHeight: content.implicitHeight + T.spaceM * 2
   color: cardHover.hovered ? T.colB : T.colO
   HoverHandler {
     id: cardHover
@@ -70,34 +70,21 @@ Rectangle {
         asynchronous: true
       }
 
-      Column {
+      Text {
         width: parent.width - (notificationImage.visible ? 36 + parent.spacing : 0)
-        spacing: 2
+        color: T.colF
+        font.family: T.fontSans
+        font.pointSize: T.fontSizeB
+        wrapMode: Text.Wrap
+        textFormat: Text.RichText
 
-        Text {
-          width: parent.width
-          color: T.colM
-          font {
-            family: T.fontSans
-            pointSize: T.fontSizeB
-          }
-          elide: Text.ElideRight
-          textFormat: Text.PlainText
-          text: card.notification?.appName ?? ""
+        function escapeHeading(value) {
+          return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g,
+                                                                                                          "<br>");
         }
 
-        Text {
-          width: parent.width
-          color: T.colF
-          font {
-            family: T.fontSans
-            pointSize: T.fontSizeB
-            bold: true
-          }
-          wrapMode: Text.Wrap
-          textFormat: Text.PlainText
-          text: card.notification?.summary ?? ""
-        }
+        text: "<b>" + escapeHeading(card.notification?.appName ?? "") + "</b> - " + escapeHeading(card.notification
+                                                                                                  ?.summary ?? "")
       }
     }
 
@@ -106,7 +93,7 @@ Rectangle {
       visible: text.length > 0
       color: T.colF
       font {
-        family: T.fontSans
+        family: T.fontSerif
         pointSize: T.fontSizeB
       }
       wrapMode: Text.Wrap

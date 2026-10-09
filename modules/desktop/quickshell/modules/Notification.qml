@@ -26,7 +26,7 @@ Scope {
     id: popupWindow
     visible: popupModel.values.length > 0
     color: "transparent"
-    implicitWidth: Math.min(444, (screen?.width ?? 1920) - T.spaceM * 2)
+    implicitWidth: Math.min(T.dimH, (screen?.width ?? 1920) - T.spaceM * 2)
     implicitHeight: Math.min(popupColumn.implicitHeight, (screen?.height ?? 1080) - T.spaceL - T.spaceM * 2)
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.namespace: "quickshell-notifications"
