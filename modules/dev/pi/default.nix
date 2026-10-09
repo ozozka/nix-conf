@@ -17,7 +17,7 @@ in
       "extensions" = ./extensions;
 
       "settings.json" = settingsFormat.generate "settings.json" {
-        lastChangelogVersion = "1.0.3";
+        lastChangelogVersion = "1.0.4";
 
         defaultProvider = "openai-codex";
         defaultModel = "gpt-6.1-sol";
@@ -31,9 +31,9 @@ in
           "bash"
           "edit"
           "write"
-          # "grep"
-          # "find"
-          # "ls"
+          "grep"
+          "find"
+          "ls"
           # "codemode"
           # "tool_search"
         ];
