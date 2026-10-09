@@ -5,7 +5,7 @@ import ".."
 
 Text {
   TapHandler {
-    onTapped: Quickshell.execDetached(["qs", "ipc", "call", "power", "open"])
+    onTapped: Quickshell.execDetached(["qs", "ipc", "call", "menu", "open"])
   }
 
   readonly property bool charging: SV.BatteryStats.status === "Charging"

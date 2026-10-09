@@ -2,5 +2,5 @@ import QtQuick
 import ".."
 
 Rectangle {
-  color: T.colB
+  color: T.colO
 }

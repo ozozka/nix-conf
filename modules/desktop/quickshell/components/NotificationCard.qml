@@ -6,9 +6,11 @@ Surface {
   id: card
 
   required property var notificationState
-  readonly property var notification: notificationState.notification
+  readonly property var notification: notificationState?.notification ?? null
 
   function imageSource() {
+    if (!notification)
+      return "";
     if (String(notification.image || "").length > 0)
       return notification.image;
     if (notification.appIcon.length > 0)
@@ -17,17 +19,29 @@ Surface {
   }
 
   implicitHeight: content.implicitHeight + T.spaceM + T.spaceS
+  color: cardHover.hovered ? T.colB : T.colO
+  HoverHandler {
+    id: cardHover
+  }
 
   TapHandler {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     onTapped: (eventPoint, button) => {
+      if (!card.notification)
+        return;
       if (button === Qt.RightButton) {
         card.notification.dismiss();
       } else {
         const actions = card.notification.actions;
         const action = actions.find(action => action.identifier === "default") ?? actions[0];
-        if (action)
+        if (action) {
+          const resident = card.notification.resident;
           action.invoke();
+          if (resident && card.notification)
+            card.notification.dismiss();
+        } else {
+          card.notification.dismiss();
+        }
       }
     }
   }
@@ -69,7 +83,7 @@ Surface {
           }
           elide: Text.ElideRight
           textFormat: Text.PlainText
-          text: card.notification.appName
+          text: card.notification?.appName ?? ""
         }
 
         Text {
@@ -82,7 +96,7 @@ Surface {
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
-          text: card.notification.summary
+          text: card.notification?.summary ?? ""
         }
       }
     }
@@ -97,7 +111,7 @@ Surface {
       }
       wrapMode: Text.Wrap
       textFormat: Text.PlainText
-      text: card.notification.body
+      text: card.notification?.body ?? ""
     }
   }
 }

@@ -3,4 +3,7 @@ singleton Clock 1.0 Clock.qml
 singleton CpuStats 1.0 CpuStats.qml
 singleton MemoryStats 1.0 MemoryStats.qml
 singleton NetworkStats 1.0 NetworkStats.qml
+singleton NotificationStore 1.0 NotificationStore.qml
+singleton PowerProfiles 1.0 PowerProfiles.qml
+singleton ProcessStats 1.0 ProcessStats.qml
 singleton TemperatureStats 1.0 TemperatureStats.qml

@@ -12,10 +12,7 @@ ShellRoot {
   }
 
   MD.Bar {}
-  MD.Launcher {
-    focusedScreen: root.focusedScreen
-  }
-  MD.PowerMenu {
+  MD.Menu {
     focusedScreen: root.focusedScreen
   }
   MD.Notification {

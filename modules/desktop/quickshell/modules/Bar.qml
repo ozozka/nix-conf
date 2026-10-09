@@ -17,7 +17,7 @@ Scope {
 
       WlrLayershell.namespace: "quickshell-bar"
 
-      color: T.colB
+      color: T.colO
 
       implicitHeight: T.spaceL
       anchors {
@@ -28,13 +28,10 @@ Scope {
 
       Row {
         anchors.left: parent.left
-        anchors.leftMargin: T.spaceL
         anchors.verticalCenter: parent.verticalCenter
         spacing: T.spaceL
 
         CM.Workspaces {}
-        CM.Language {}
-        CM.Audio {}
         CM.Submap {}
       }
 
@@ -68,6 +65,7 @@ Scope {
 
         CM.Network {}
         CM.Temperature {}
+        CM.Processes {}
         CM.Cpu {}
         CM.Memory {}
         CM.Battery {}

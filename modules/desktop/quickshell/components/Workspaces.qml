@@ -2,20 +2,33 @@ import QtQuick
 import Quickshell.Hyprland
 import ".."
 
-Repeater {
-  model: 6
+Row {
+  spacing: 0
 
-  Text {
-    property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
-    property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
+  Repeater {
+    model: 6
 
-    text: "🞄"
+    Rectangle {
+      id: workspace
+      required property int index
+      readonly property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
+      readonly property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
+      readonly property bool occupied: (ws?.toplevels.values.length ?? 0) > 0
+      width: glyph.implicitWidth
+      height: T.spaceL
+      color: workspace.isActive ? T.colB : T.colO
 
-    color: isActive ? T.colF : (ws ? T.colP : T.colM)
-    font {
-      family: T.fontMono
-      pointSize: T.fontSizeB
-      bold: true
+      Text {
+        id: glyph
+        anchors.centerIn: parent
+        text: " 🞄 "
+        color: workspace.occupied ? T.colF : T.colM
+        font {
+          family: T.fontMono
+          pointSize: T.fontSizeB
+          bold: true
+        }
+      }
     }
   }
 }

@@ -115,9 +115,16 @@ Scope {
     }
 
     WlSessionLockSurface {
-      color: T.colO
+      color: T.colB
+
+      Image {
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        source: Qt.resolvedUrl(T.wallpaper)
+      }
 
       CM.Surface {
+        color: T.colB
         anchors.centerIn: parent
         width: 360
         height: lockContent.implicitHeight + T.spaceM * 2
@@ -141,13 +148,13 @@ Scope {
               pointSize: T.fontSizeT
               bold: true
             }
-            text: "Locked"
+            text: Quickshell.env("USER") || Quickshell.env("LOGNAME") || "User"
           }
 
           Rectangle {
             width: parent.width
-            height: T.spaceL * 1.5
-            color: T.colO
+            height: T.spaceL * 2
+            color: T.colB
 
             TextInput {
               id: password
@@ -159,14 +166,15 @@ Scope {
               enabled: !pam.active || lockModule.awaitingUserResponse
               color: T.colF
               selectionColor: T.colP
-              selectedTextColor: T.colO
+              selectedTextColor: T.colB
               font {
                 family: T.fontMono
-                pointSize: T.fontSizeB
+                pointSize: T.fontSizeH
               }
               echoMode: pam.responseRequired && pam.responseVisible ? TextInput.Normal : TextInput.Password
               inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
               verticalAlignment: TextInput.AlignVCenter
+              horizontalAlignment: TextInput.AlignHCenter
 
               onTextChanged: lockModule.authenticationFailed = false
               onAccepted: {
