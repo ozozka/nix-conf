@@ -1,3 +1,8 @@
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import {
+  createWriteToolDefinition,
+  generateUnifiedPatch,
+} from "@earendil-works/pi-coding-agent";
 import type {
   ExtensionAPI,
   ExtensionContext,
@@ -13,6 +18,21 @@ type UsageWindow = {
   resetAt: number;
   observedAt: number;
 };
+
+type LineChanges = { added: number; removed: number };
+
+function countPatchLines(patch: string): LineChanges {
+  const changes = { added: 0, removed: 0 };
+  let inHunk = false;
+  for (const line of patch.split("\n")) {
+    if (line.startsWith("@@ ")) inHunk = true;
+    // Count only hunk bodies, not file headers. Content beginning with ++/--
+    // is still a changed line and must not be mistaken for a header.
+    else if (inHunk && line.startsWith("+")) changes.added++;
+    else if (inHunk && line.startsWith("-")) changes.removed++;
+  }
+  return changes;
+}
 
 function formatDuration(milliseconds: number): string {
   const seconds = Math.floor(Math.max(0, milliseconds) / 1000);
@@ -97,6 +117,61 @@ export default function (pi: ExtensionAPI) {
   let requestProvider: string | undefined;
   let lastStatus: string | undefined;
   const usage = new Map<number, UsageWindow>();
+  let addedLines = 0;
+  let removedLines = 0;
+
+  function addChanges(changes: LineChanges) {
+    addedLines += changes.added;
+    removedLines += changes.removed;
+    updateStatus();
+  }
+
+  // Preserve the built-in write tool, including its renderers and mutation
+  // queue. Reading inside writeFile observes preceding same-file mutations,
+  // even when tools run in parallel. Each execution owns its own snapshot.
+  const writeTool = createWriteToolDefinition(process.cwd());
+  pi.registerTool({
+    ...writeTool,
+    async execute(toolCallId, input, signal, onUpdate, ctx) {
+      const sessionContext = context;
+      let changes: LineChanges | undefined;
+      const tool = createWriteToolDefinition(ctx.cwd, {
+        operations: {
+          mkdir: async (dir) => {
+            await mkdir(dir, { recursive: true });
+          },
+          writeFile: async (path, content) => {
+            if (sessionContext) {
+              let previous: string | undefined;
+              try {
+                previous = await readFile(path, "utf8");
+              } catch (error) {
+                // Unreadable files should not make otherwise valid writes fail.
+                if (record(error)?.code === "ENOENT") previous = "";
+              }
+              if (previous !== undefined) {
+                changes = countPatchLines(
+                  generateUnifiedPatch(path, previous, content, 0),
+                );
+              }
+            }
+            await writeFile(path, content, "utf8");
+          },
+        },
+      });
+      const result = await tool.execute(
+        toolCallId,
+        input,
+        signal,
+        onUpdate,
+        ctx,
+      );
+      // Failed/aborted writes throw above and never contribute to totals.
+      if (changes && sessionContext && context === sessionContext)
+        addChanges(changes);
+      return result;
+    },
+  });
 
   function updateStatus() {
     if (!context) return;
@@ -121,7 +196,14 @@ export default function (pi: ExtensionAPI) {
           .join(" - "),
       );
     }
-    const status = parts.join(" * ");
+    const theme = context.ui.theme;
+    if (addedLines > 0 || removedLines > 0) {
+      parts.push(
+        `${theme.fg("toolDiffAdded", `+${addedLines}`)} ${theme.fg("toolDiffRemoved", `-${removedLines}`)}`,
+      );
+    }
+    // Rebuild themed strings on every update so theme changes refresh colors.
+    const status = parts.join(theme.fg("muted", " * "));
     if (status !== lastStatus) {
       context.ui.setStatus(STATUS_KEY, status);
       lastStatus = status;
@@ -151,7 +233,16 @@ export default function (pi: ExtensionAPI) {
     requestProvider = undefined;
     lastStatus = undefined;
     usage.clear();
+    addedLines = 0;
+    removedLines = 0;
   }
+
+  pi.on("tool_execution_end", (event) => {
+    if (!context || event.toolName !== "edit" || event.isError) return;
+    const details = record(record(event.result)?.details);
+    if (typeof details?.patch === "string")
+      addChanges(countPatchLines(details.patch));
+  });
 
   pi.on("session_start", (_event, ctx) => {
     stop();
