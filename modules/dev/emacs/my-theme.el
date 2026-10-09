@@ -43,6 +43,7 @@
    `(fringe ((t (:background ,my-theme-col-b))))
    `(link ((t (:inherit fixed-pitch :foreground ,my-theme-col-p :underline t))))
    `(link-visited ((t (:foreground ,my-theme-col-m :underline t))))
+   `(minibuffer-prompt ((t (:foreground ,my-theme-col-s :weight bold))))
    `(line-number ((t (:background ,my-theme-col-b :foreground ,my-theme-col-m :weight bold))))
    `(line-number-current-line ((t (:background ,my-theme-col-b :foreground ,my-theme-col-f :weight bold))))
    `(vertical-border ((t (:background ,my-theme-col-b :foreground ,my-theme-col-o))))
