@@ -1,24 +1,31 @@
 import Quickshell
-import QtQuick
-import Quickshell.Hyprland
-import "modules" as MD
 
 ShellRoot {
   id: root
 
-  readonly property var focusedScreen: {
-    const monitor = Hyprland.focusedMonitor;
-    return Quickshell.screens.find(screen => Hyprland.monitorFor(screen) === monitor) ?? Quickshell.screens[0] ?? null;
-  }
+  property T theme: T {}
+  property Lib lib: Lib {}
 
-  MD.Bar {}
-  MD.Menu {
-    focusedScreen: root.focusedScreen
+  Bar {
+    theme: root.theme
+    lib: root.lib
   }
-  MD.Notification {
-    focusedScreen: root.focusedScreen
+  Menu {
+    theme: root.theme
+    lib: root.lib
+    focusedScreen: root.lib.focusedScreen
   }
-  MD.Polkit {}
-  MD.Lock {}
-  MD.Wallpaper {}
+  Notification {
+    theme: root.theme
+    focusedScreen: root.lib.focusedScreen
+  }
+  Polkit {
+    theme: root.theme
+  }
+  Lock {
+    theme: root.theme
+  }
+  Wallpaper {
+    theme: root.theme
+  }
 }

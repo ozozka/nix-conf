@@ -1,9 +1,9 @@
 import QtQuick
 import Quickshell
 import Quickshell.Services.Polkit
-import ".."
 
 Scope {
+  required property T theme
   PolkitAgent {
     id: agent
   }
@@ -13,7 +13,7 @@ Scope {
     title: "quickshell-polkit"
     color: "transparent"
     implicitWidth: 420
-    implicitHeight: content.implicitHeight + T.dimS * 2
+    implicitHeight: content.implicitHeight + theme.dimS * 2
 
     onClosed: agent.flow?.cancelAuthenticationRequest()
     onVisibleChanged: {
@@ -22,7 +22,7 @@ Scope {
     }
 
     Rectangle {
-      color: T.colO
+      color: theme.colO
       anchors.fill: parent
 
       Column {
@@ -31,16 +31,16 @@ Scope {
           top: parent.top
           left: parent.left
           right: parent.right
-          margins: T.dimS
+          margins: theme.dimS
         }
-        spacing: T.dimS
+        spacing: theme.dimS
 
         Text {
           width: parent.width
-          color: T.colF
+          color: theme.colF
           font {
             family: "monospace"
-            pointSize: T.fontSizeL
+            pointSize: theme.fontSizeL
             bold: true
           }
           wrapMode: Text.Wrap
@@ -49,10 +49,10 @@ Scope {
 
         Text {
           width: parent.width
-          color: T.colF
+          color: theme.colF
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeM
+            pointSize: theme.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -62,10 +62,10 @@ Scope {
         Text {
           width: parent.width
           visible: text.length > 0
-          color: T.colM
+          color: theme.colM
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeM
+            pointSize: theme.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -75,10 +75,10 @@ Scope {
         Text {
           width: parent.width
           visible: text.length > 0
-          color: agent.flow?.supplementaryIsError ? T.colS : T.colM
+          color: agent.flow?.supplementaryIsError ? theme.colS : theme.colM
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeM
+            pointSize: theme.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -88,32 +88,32 @@ Scope {
         Text {
           width: parent.width
           visible: agent.flow?.failed ?? false
-          color: T.colS
+          color: theme.colS
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeM
+            pointSize: theme.fontSizeM
           }
           text: "Authentication failed"
         }
 
         Rectangle {
           width: parent.width
-          height: T.dimM * 1.5
-          color: T.colO
+          height: theme.dimM * 1.5
+          color: theme.colO
 
           TextInput {
             id: response
             anchors {
               fill: parent
-              margins: T.dimS
+              margins: theme.dimS
             }
             enabled: agent.flow?.isResponseRequired ?? false
-            color: T.colF
-            selectionColor: T.colP
-            selectedTextColor: T.colO
+            color: theme.colF
+            selectionColor: theme.colP
+            selectedTextColor: theme.colO
             font {
               family: "monospace"
-              pointSize: T.fontSizeM
+              pointSize: theme.fontSizeM
             }
             echoMode: agent.flow?.responseVisible ? TextInput.Normal : TextInput.Password
             inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
@@ -133,20 +133,20 @@ Scope {
 
         Row {
           anchors.right: parent.right
-          spacing: T.dimS
+          spacing: theme.dimS
 
           Rectangle {
-            width: cancelText.implicitWidth + T.dimS * 2
-            height: T.dimM
-            color: T.colO
+            width: cancelText.implicitWidth + theme.dimS * 2
+            height: theme.dimM
+            color: theme.colO
 
             Text {
               id: cancelText
               anchors.centerIn: parent
-              color: T.colF
+              color: theme.colF
               font {
                 family: "monospace"
-                pointSize: T.fontSizeM
+                pointSize: theme.fontSizeM
               }
               text: "Cancel"
             }
@@ -157,17 +157,17 @@ Scope {
           }
 
           Rectangle {
-            width: authenticateText.implicitWidth + T.dimS * 2
-            height: T.dimM
-            color: agent.flow?.isResponseRequired ? T.colP : T.colM
+            width: authenticateText.implicitWidth + theme.dimS * 2
+            height: theme.dimM
+            color: agent.flow?.isResponseRequired ? theme.colP : theme.colM
 
             Text {
               id: authenticateText
               anchors.centerIn: parent
-              color: T.colO
+              color: theme.colO
               font {
                 family: "monospace"
-                pointSize: T.fontSizeM
+                pointSize: theme.fontSizeM
                 bold: true
               }
               text: "Authenticate"

@@ -3,10 +3,10 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import Quickshell.Wayland
-import ".."
 
 Scope {
   id: lockModule
+  required property T theme
 
   property string pendingResponse: ""
   property bool authenticating: false
@@ -114,19 +114,19 @@ Scope {
     }
 
     WlSessionLockSurface {
-      color: T.colB
+      color: theme.colB
 
       Image {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: Qt.resolvedUrl(T.wallpaper)
+        source: Qt.resolvedUrl(theme.wallpaper)
       }
 
       Rectangle {
-        color: T.colB
+        color: theme.colB
         anchors.centerIn: parent
         width: 360
-        height: lockContent.implicitHeight + T.dimS * 2
+        height: lockContent.implicitHeight + theme.dimS * 2
 
         Column {
           id: lockContent
@@ -134,17 +134,17 @@ Scope {
             top: parent.top
             left: parent.left
             right: parent.right
-            margins: T.dimS
+            margins: theme.dimS
           }
-          spacing: T.dimS
+          spacing: theme.dimS
 
           Text {
             width: parent.width
-            color: T.colF
+            color: theme.colF
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "monospace"
-              pointSize: T.fontSizeH
+              pointSize: theme.fontSizeH
               bold: true
             }
             text: Quickshell.env("USER") || Quickshell.env("LOGNAME") || "User"
@@ -152,23 +152,23 @@ Scope {
 
           Rectangle {
             width: parent.width
-            height: T.dimM * 2
-            color: T.colB
+            height: theme.dimM * 2
+            color: theme.colB
 
             TextInput {
               id: password
               anchors {
                 fill: parent
-                margins: T.dimS
+                margins: theme.dimS
               }
               focus: true
               enabled: !pam.active || lockModule.awaitingUserResponse
-              color: T.colF
-              selectionColor: T.colP
-              selectedTextColor: T.colB
+              color: theme.colF
+              selectionColor: theme.colP
+              selectedTextColor: theme.colB
               font {
                 family: "monospace"
-                pointSize: T.fontSizeL
+                pointSize: theme.fontSizeL
               }
               echoMode: pam.responseRequired && pam.responseVisible ? TextInput.Normal : TextInput.Password
               inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
@@ -186,11 +186,11 @@ Scope {
           Text {
             width: parent.width
             visible: lockModule.authenticationFailed
-            color: T.colS
+            color: theme.colS
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "sans-serif"
-              pointSize: T.fontSizeM
+              pointSize: theme.fontSizeM
             }
             text: "Authentication failed"
           }
@@ -198,11 +198,11 @@ Scope {
           Text {
             width: parent.width
             visible: lockModule.authenticating
-            color: T.colM
+            color: theme.colM
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "sans-serif"
-              pointSize: T.fontSizeM
+              pointSize: theme.fontSizeM
             }
             text: lockModule.awaitingUserResponse ? pam.message : "Authenticating"
           }

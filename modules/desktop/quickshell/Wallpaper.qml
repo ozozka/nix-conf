@@ -1,9 +1,9 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import ".."
 
 Scope {
+  required property T theme
   Variants {
     model: Quickshell.screens
 
@@ -28,7 +28,7 @@ Scope {
       Image {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: Qt.resolvedUrl(T.wallpaper)
+        source: Qt.resolvedUrl(theme.wallpaper)
       }
     }
   }

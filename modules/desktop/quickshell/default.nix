@@ -1,64 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 
 let
   theme = config.ozozka.theme;
-
-  quickshellSource = lib.fileset.toSource {
-    root = ./.;
-    fileset = lib.fileset.unions [
-      ./components
-      ./lib
-      ./modules
-      ./services
-      ./shell.qml
-      ./qmldir
-    ];
-  };
-
-  themeQml = pkgs.writeTextDir "T.qml" ''
-    pragma Singleton
-
-    import Quickshell
-    import QtQuick
-
-    Singleton {
-      readonly property color colP: ${builtins.toJSON "#${theme.colors.tokens.p}"}
-      readonly property color colS: ${builtins.toJSON "#${theme.colors.tokens.s}"}
-      readonly property color colF: ${builtins.toJSON "#${theme.colors.tokens.f}"}
-      readonly property color colM: ${builtins.toJSON "#${theme.colors.tokens.m}"}
-      readonly property color colO: ${builtins.toJSON "#${theme.colors.tokens.o}"}
-      readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
-
-      readonly property real fontSizeT: ${toString (theme.font-size.t / 10.0)}
-      readonly property real fontSizeS: ${toString (theme.font-size.s / 10.0)}
-      readonly property real fontSizeM: ${toString (theme.font-size.m / 10.0)}
-      readonly property real fontSizeL: ${toString (theme.font-size.l / 10.0)}
-      readonly property real fontSizeX: ${toString (theme.font-size.x / 10.0)}
-      readonly property real fontSizeH: ${toString (theme.font-size.h / 10.0)}
-
-      readonly property int dimT: ${toString theme.dim.t}
-      readonly property int dimS: ${toString theme.dim.s}
-      readonly property int dimM: ${toString theme.dim.m}
-      readonly property int dimL: ${toString theme.dim.l}
-      readonly property int dimX: ${toString theme.dim.x}
-      readonly property int dimH: ${toString theme.dim.h}
-
-      readonly property string wallpaper: ${builtins.toJSON (toString theme.wallpaper)}
-    }
-  '';
-
-  quickshellConfig = pkgs.symlinkJoin {
-    name = "quickshell-config";
-    paths = [
-      quickshellSource
-      themeQml
-    ];
-  };
 in
 {
   imports = [ ../../theme.nix ];
@@ -68,7 +11,45 @@ in
       quickshell
       gtk3
     ];
-    etc."xdg/quickshell".source = quickshellConfig;
+
+    etc = {
+      "xdg/quickshell/shell.qml".source = ./shell.qml;
+      "xdg/quickshell/Bar.qml".source = ./Bar.qml;
+      "xdg/quickshell/Menu.qml".source = ./Menu.qml;
+      "xdg/quickshell/Notification.qml".source = ./Notification.qml;
+      "xdg/quickshell/Lock.qml".source = ./Lock.qml;
+      "xdg/quickshell/Polkit.qml".source = ./Polkit.qml;
+      "xdg/quickshell/Wallpaper.qml".source = ./Wallpaper.qml;
+      "xdg/quickshell/Lib.qml".source = ./Lib.qml;
+      "xdg/quickshell/T.qml".text = ''
+        import QtQuick
+
+        QtObject {
+          readonly property color colP: ${builtins.toJSON "#${theme.colors.tokens.p}"}
+          readonly property color colS: ${builtins.toJSON "#${theme.colors.tokens.s}"}
+          readonly property color colF: ${builtins.toJSON "#${theme.colors.tokens.f}"}
+          readonly property color colM: ${builtins.toJSON "#${theme.colors.tokens.m}"}
+          readonly property color colO: ${builtins.toJSON "#${theme.colors.tokens.o}"}
+          readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
+
+          readonly property real fontSizeT: ${toString (theme.font-size.t / 10.0)}
+          readonly property real fontSizeS: ${toString (theme.font-size.s / 10.0)}
+          readonly property real fontSizeM: ${toString (theme.font-size.m / 10.0)}
+          readonly property real fontSizeL: ${toString (theme.font-size.l / 10.0)}
+          readonly property real fontSizeX: ${toString (theme.font-size.x / 10.0)}
+          readonly property real fontSizeH: ${toString (theme.font-size.h / 10.0)}
+
+          readonly property int dimT: ${toString theme.dim.t}
+          readonly property int dimS: ${toString theme.dim.s}
+          readonly property int dimM: ${toString theme.dim.m}
+          readonly property int dimL: ${toString theme.dim.l}
+          readonly property int dimX: ${toString theme.dim.x}
+          readonly property int dimH: ${toString theme.dim.h}
+
+          readonly property string wallpaper: ${builtins.toJSON (toString theme.wallpaper)}
+        }
+      '';
+    };
   };
 
   systemd.user.services.quickshell = {
