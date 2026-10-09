@@ -6,7 +6,7 @@ Text {
   color: T.colF
   font {
     family: "monospace"
-    pointSize: T.fontSizeB
+    pointSize: T.fontSizeM
   }
   text: `${SV.CpuStats.usage.toFixed(2)}%`
 }

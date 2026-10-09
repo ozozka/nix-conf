@@ -11,7 +11,7 @@ Text {
   color: T.colF
   font {
     family: "monospace"
-    pointSize: T.fontSizeB
+    pointSize: T.fontSizeM
   }
   text: SV.NetworkStats.connected ? `${units.formatRate(SV.NetworkStats.totalBytesPerSecond)}` : ""
 }

@@ -99,7 +99,7 @@ Scope {
   Component {
     id: powerDetails
     ColumnLayout {
-      spacing: T.spaceS
+      spacing: T.dimS
       Repeater {
         model: menuModule.powerEntries
         CM.MenuButton {
@@ -132,8 +132,8 @@ Scope {
 
     CM.MenuWindow {
       id: panel
-      menuWidth: Math.min(980, width - T.spaceM * 2)
-      menuHeight: Math.min(content.height + T.spaceM * 2, Math.max(0, height - T.spaceL - T.spaceM * 2))
+      menuWidth: Math.min(980, width - T.dimS * 2)
+      menuHeight: Math.min(content.height + T.dimS * 2, Math.max(0, height - T.dimM - T.dimS * 2))
       onDismissRequested: menuModule.close()
       widgetContent: CM.SelectionWidget {
         id: selection
@@ -164,7 +164,7 @@ Scope {
         id: scroll
         anchors {
           fill: parent
-          margins: T.spaceM
+          margins: T.dimS
         }
         contentHeight: content.height
         clip: true
@@ -173,12 +173,12 @@ Scope {
         GridLayout {
           id: content
           width: scroll.width
-          readonly property real controlsHeight: controls.implicitHeight + footer.implicitHeight + T.spaceM
+          readonly property real controlsHeight: controls.implicitHeight + footer.implicitHeight + T.dimS
           height: columns === 2 ? Math.max(controlsHeight, applications.implicitHeight) : controlsHeight
-                                  + applications.implicitHeight + T.spaceM
+                                  + applications.implicitHeight + T.dimS
           columns: width < 760 ? 1 : 2
-          columnSpacing: T.spaceM
-          rowSpacing: T.spaceM
+          columnSpacing: T.dimS
+          rowSpacing: T.dimS
 
           ColumnLayout {
             Layout.fillWidth: true
@@ -186,7 +186,7 @@ Scope {
             Layout.preferredWidth: 1
             Layout.preferredHeight: content.controlsHeight
             Layout.minimumWidth: 0
-            spacing: T.spaceM
+            spacing: T.dimS
 
             Flickable {
               id: controlsScroll
@@ -214,7 +214,7 @@ Scope {
             RowLayout {
               id: footer
               Layout.fillWidth: true
-              spacing: T.spaceM
+              spacing: T.dimS
               CM.MenuButton {
                 id: powerButton
                 symbol: "⏻"
@@ -228,16 +228,16 @@ Scope {
                 text: `▰ ${Math.round(SV.BatteryStats.percentage)}% · ${SV.BatteryStats.status}`
                 color: T.colM
                 font.family: "sans-serif"
-                font.pointSize: T.fontSizeB
+                font.pointSize: T.fontSizeM
                 elide: Text.ElideRight
               }
               Row {
-                spacing: T.spaceS
+                spacing: T.dimS
                 Text {
                   text: "⌨"
                   color: T.colM
                   font.family: "monospace"
-                  font.pointSize: T.fontSizeB
+                  font.pointSize: T.fontSizeM
                 }
                 CM.Language {
                   font.family: "sans-serif"

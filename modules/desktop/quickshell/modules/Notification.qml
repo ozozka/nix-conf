@@ -26,8 +26,8 @@ Scope {
     id: popupWindow
     visible: popupModel.values.length > 0
     color: "transparent"
-    implicitWidth: Math.min(T.dimH, (screen?.width ?? 1920) - T.spaceM * 2)
-    implicitHeight: Math.min(popupColumn.implicitHeight, (screen?.height ?? 1080) - T.spaceL - T.spaceM * 2)
+    implicitWidth: Math.min(T.dimH, (screen?.width ?? 1920) - T.dimS * 2)
+    implicitHeight: Math.min(popupColumn.implicitHeight, (screen?.height ?? 1080) - T.dimM - T.dimS * 2)
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.namespace: "quickshell-notifications"
     WlrLayershell.layer: WlrLayer.Overlay
@@ -37,8 +37,8 @@ Scope {
       right: true
     }
     margins {
-      bottom: T.spaceL + T.spaceM
-      right: T.spaceM
+      bottom: T.dimM + T.dimS
+      right: T.dimS
     }
 
     Flickable {
@@ -50,7 +50,7 @@ Scope {
       Column {
         id: popupColumn
         width: stack.width
-        spacing: T.spaceS
+        spacing: T.dimS
         Repeater {
           model: popupModel
           CM.NotificationCard {

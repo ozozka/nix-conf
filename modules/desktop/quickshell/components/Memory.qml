@@ -11,7 +11,7 @@ Text {
   color: T.colF
   font {
     family: "monospace"
-    pointSize: T.fontSizeB
+    pointSize: T.fontSizeM
   }
   text: units.formatBytes(SV.MemoryStats.usedBytes)
 }

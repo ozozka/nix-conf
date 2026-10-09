@@ -15,7 +15,7 @@ Row {
       readonly property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
       readonly property bool occupied: (ws?.toplevels.values.length ?? 0) > 0
       width: glyph.implicitWidth
-      height: T.spaceL
+      height: T.dimM
       color: workspace.isActive ? T.colB : T.colO
 
       Text {
@@ -25,7 +25,7 @@ Row {
         color: workspace.occupied ? T.colF : T.colM
         font {
           family: "monospace"
-          pointSize: T.fontSizeB
+          pointSize: T.fontSizeM
           bold: true
         }
       }

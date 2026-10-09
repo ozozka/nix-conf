@@ -19,7 +19,7 @@ Text {
   color: T.colF
   font {
     family: "monospace"
-    pointSize: T.fontSizeB
+    pointSize: T.fontSizeM
   }
   text: layout
 

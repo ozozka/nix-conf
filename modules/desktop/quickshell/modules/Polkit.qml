@@ -13,7 +13,7 @@ Scope {
     title: "quickshell-polkit"
     color: "transparent"
     implicitWidth: 420
-    implicitHeight: content.implicitHeight + T.spaceM * 2
+    implicitHeight: content.implicitHeight + T.dimS * 2
 
     onClosed: agent.flow?.cancelAuthenticationRequest()
     onVisibleChanged: {
@@ -31,16 +31,16 @@ Scope {
           top: parent.top
           left: parent.left
           right: parent.right
-          margins: T.spaceM
+          margins: T.dimS
         }
-        spacing: T.spaceM
+        spacing: T.dimS
 
         Text {
           width: parent.width
           color: T.colF
           font {
             family: "monospace"
-            pointSize: T.fontSizeH
+            pointSize: T.fontSizeL
             bold: true
           }
           wrapMode: Text.Wrap
@@ -52,7 +52,7 @@ Scope {
           color: T.colF
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeB
+            pointSize: T.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -65,7 +65,7 @@ Scope {
           color: T.colM
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeB
+            pointSize: T.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -78,7 +78,7 @@ Scope {
           color: agent.flow?.supplementaryIsError ? T.colS : T.colM
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeB
+            pointSize: T.fontSizeM
           }
           wrapMode: Text.Wrap
           textFormat: Text.PlainText
@@ -91,21 +91,21 @@ Scope {
           color: T.colS
           font {
             family: "sans-serif"
-            pointSize: T.fontSizeB
+            pointSize: T.fontSizeM
           }
           text: "Authentication failed"
         }
 
         Rectangle {
           width: parent.width
-          height: T.spaceL * 1.5
+          height: T.dimM * 1.5
           color: T.colO
 
           TextInput {
             id: response
             anchors {
               fill: parent
-              margins: T.spaceS
+              margins: T.dimS
             }
             enabled: agent.flow?.isResponseRequired ?? false
             color: T.colF
@@ -113,7 +113,7 @@ Scope {
             selectedTextColor: T.colO
             font {
               family: "monospace"
-              pointSize: T.fontSizeB
+              pointSize: T.fontSizeM
             }
             echoMode: agent.flow?.responseVisible ? TextInput.Normal : TextInput.Password
             inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
@@ -133,11 +133,11 @@ Scope {
 
         Row {
           anchors.right: parent.right
-          spacing: T.spaceS
+          spacing: T.dimS
 
           Rectangle {
-            width: cancelText.implicitWidth + T.spaceM * 2
-            height: T.spaceL
+            width: cancelText.implicitWidth + T.dimS * 2
+            height: T.dimM
             color: T.colO
 
             Text {
@@ -146,7 +146,7 @@ Scope {
               color: T.colF
               font {
                 family: "monospace"
-                pointSize: T.fontSizeB
+                pointSize: T.fontSizeM
               }
               text: "Cancel"
             }
@@ -157,8 +157,8 @@ Scope {
           }
 
           Rectangle {
-            width: authenticateText.implicitWidth + T.spaceM * 2
-            height: T.spaceL
+            width: authenticateText.implicitWidth + T.dimS * 2
+            height: T.dimM
             color: agent.flow?.isResponseRequired ? T.colP : T.colM
 
             Text {
@@ -167,7 +167,7 @@ Scope {
               color: T.colO
               font {
                 family: "monospace"
-                pointSize: T.fontSizeB
+                pointSize: T.fontSizeM
                 bold: true
               }
               text: "Authenticate"

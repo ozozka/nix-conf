@@ -48,9 +48,9 @@ PanelWindow {
         acceptedButtons: Qt.AllButtons
       }
       anchors.bottom: parent.bottom
-      anchors.bottomMargin: T.spaceL + T.spaceM
+      anchors.bottomMargin: T.dimM + T.dimS
       anchors.left: parent.left
-      anchors.leftMargin: T.spaceM
+      anchors.leftMargin: T.dimS
       width: 480
     }
 

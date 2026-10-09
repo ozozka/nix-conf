@@ -28,7 +28,7 @@ ColumnLayout {
   readonly property var audioDevices: audioCandidates.filter(node => audioMetadata.availability(node) !== "no")
   signal detailsRequested
   signal passwordRequested
-  spacing: T.spaceS
+  spacing: T.dimS
 
   function reset() {
     expanded = "";
@@ -154,7 +154,7 @@ ColumnLayout {
   component SectionText: Text {
     color: T.colF
     font.family: "sans-serif"
-    font.pointSize: T.fontSizeB
+    font.pointSize: T.fontSizeM
     wrapMode: Text.Wrap
   }
 
@@ -227,7 +227,7 @@ ColumnLayout {
     readonly property var node: input ? Pipewire.defaultAudioSource : Pipewire.defaultAudioSink
     readonly property bool available: !!node?.ready && !!node?.audio
     readonly property var devices: controls.audioDevices.filter(device => device.isSink !== input)
-    spacing: T.spaceS
+    spacing: T.dimS
     SectionText {
       Layout.fillWidth: true
       text: audioMetadata.label(audioControl.node)
@@ -302,11 +302,11 @@ ColumnLayout {
   // Instantiated by the selection widget, not laid out inside the main menu.
   property Component details: Component {
     ColumnLayout {
-      spacing: T.spaceS
+      spacing: T.dimS
       ColumnLayout {
         Layout.fillWidth: true
         visible: controls.expanded === "profiles"
-        spacing: T.spaceS
+        spacing: T.dimS
         Repeater {
           model: SV.PowerProfiles.availableProfiles
           MenuButton {
@@ -329,7 +329,7 @@ ColumnLayout {
       ColumnLayout {
         Layout.fillWidth: true
         visible: controls.expanded === "wifi"
-        spacing: T.spaceS
+        spacing: T.dimS
         RowLayout {
           Layout.fillWidth: true
           MenuButton {
@@ -395,7 +395,7 @@ ColumnLayout {
           selectionColor: T.colP
           selectedTextColor: T.colO
           font.family: "sans-serif"
-          font.pointSize: T.fontSizeB
+          font.pointSize: T.fontSizeM
           background: Rectangle {
             color: T.colB
           }
@@ -417,7 +417,7 @@ ColumnLayout {
       ColumnLayout {
         Layout.fillWidth: true
         visible: controls.expanded === "bluetooth"
-        spacing: T.spaceS
+        spacing: T.dimS
         MenuButton {
           Layout.fillWidth: true
           text: controls.adapter?.enabled ? "Turn Bluetooth off" : "Turn Bluetooth on"

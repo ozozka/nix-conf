@@ -34,13 +34,18 @@ let
       readonly property color colO: ${builtins.toJSON "#${theme.colors.tokens.o}"}
       readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
 
-      readonly property real fontSizeB: ${toString (theme.font-size.m / 10.0)}
-      readonly property real fontSizeH: ${toString (theme.font-size.l / 10.0)}
-      readonly property real fontSizeT: ${toString (theme.font-size.h / 10.0)}
+      readonly property real fontSizeT: ${toString (theme.font-size.t / 10.0)}
+      readonly property real fontSizeS: ${toString (theme.font-size.s / 10.0)}
+      readonly property real fontSizeM: ${toString (theme.font-size.m / 10.0)}
+      readonly property real fontSizeL: ${toString (theme.font-size.l / 10.0)}
+      readonly property real fontSizeX: ${toString (theme.font-size.x / 10.0)}
+      readonly property real fontSizeH: ${toString (theme.font-size.h / 10.0)}
 
-      readonly property int spaceS: ${toString theme.dim.s}
-      readonly property int spaceM: ${toString (theme.dim.s * 2)}
-      readonly property int spaceL: ${toString theme.dim.m}
+      readonly property int dimT: ${toString theme.dim.t}
+      readonly property int dimS: ${toString theme.dim.s}
+      readonly property int dimM: ${toString theme.dim.m}
+      readonly property int dimL: ${toString theme.dim.l}
+      readonly property int dimX: ${toString theme.dim.x}
       readonly property int dimH: ${toString theme.dim.h}
 
       readonly property string wallpaper: ${builtins.toJSON (toString theme.wallpaper)}

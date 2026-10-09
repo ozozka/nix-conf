@@ -8,8 +8,8 @@ FocusScope {
   signal launched
   property alias query: search.text
   property int visibleResultLimit: 6
-  readonly property real resultHeight: T.spaceL + T.spaceS
-  implicitHeight: Math.max(1, Math.min(results.count, visibleResultLimit)) * resultHeight + T.spaceS + searchBox.height
+  readonly property real resultHeight: T.dimM + T.dimS
+  implicitHeight: Math.max(1, Math.min(results.count, visibleResultLimit)) * resultHeight + T.dimS + searchBox.height
 
   function focusSearch() {
     search.forceActiveFocus();
@@ -63,7 +63,7 @@ FocusScope {
       bottom: searchBox.top
       left: parent.left
       right: parent.right
-      bottomMargin: T.spaceS
+      bottomMargin: T.dimS
     }
       clip: true
       model: resultModel
@@ -85,28 +85,29 @@ FocusScope {
       id: resultHover
     }
       IconImage {
+      id: applicationIcon
       anchors {
       left: parent.left
-      leftMargin: T.spaceS
+      leftMargin: T.dimS
       verticalCenter: parent.verticalCenter
     }
-      width: T.spaceL
-      height: T.spaceL
+      width: T.dimM
+      height: T.dimM
       source: Quickshell.iconPath(modelData.icon || "application-x-executable", "")
     }
       Text {
       anchors {
-      left: parent.left
+      left: applicationIcon.right
       right: parent.right
       verticalCenter: parent.verticalCenter
-      leftMargin: T.spaceL + T.spaceM
-      rightMargin: T.spaceS
+      leftMargin: T.dimS
+      rightMargin: T.dimS
     }
       text: modelData.name
       color: resultItem.current ? T.colF : T.colM
       font.bold: resultItem.current
       font.family: "sans-serif"
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
       elide: Text.ElideRight
     }
       TapHandler {
@@ -121,7 +122,7 @@ FocusScope {
       text: "No matching applications"
       color: T.colM
       font.family: "sans-serif"
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
     }
 
       Rectangle {
@@ -131,20 +132,20 @@ FocusScope {
       left: parent.left
       right: parent.right
     }
-      height: T.spaceL + T.spaceS * 2
+      height: T.dimM + T.dimS * 2
       color: T.colO
       TextInput {
       id: search
       activeFocusOnTab: true
       anchors {
       fill: parent
-      margins: T.spaceS
+      margins: T.dimS
     }
       color: T.colF
       selectionColor: T.colP
       selectedTextColor: T.colO
       font.family: "sans-serif"
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
       verticalAlignment: TextInput.AlignVCenter
       clip: true
       onTextChanged: results.currentIndex = resultModel.values.length ? 0 : -1

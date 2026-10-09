@@ -9,15 +9,15 @@ Button {
   property string symbolFamily: "monospace"
   property string valueText: ""
   property bool muted: false
-  implicitHeight: T.spaceL + T.spaceS
-  implicitWidth: contentItem.implicitWidth + T.spaceM * 2
-  padding: T.spaceS
+  implicitHeight: T.dimM + T.dimS
+  implicitWidth: contentItem.implicitWidth + T.dimS * 2
+  padding: T.dimS
   hoverEnabled: true
   contentItem: Item {
     id: content
     readonly property real sideWidth: Math.max(symbolText.visible ? symbolText.implicitWidth : 0, valueLabel.visible
                                                ? valueLabel.implicitWidth : 0)
-    readonly property real labelInset: sideWidth > 0 ? sideWidth + T.spaceS : 0
+    readonly property real labelInset: sideWidth > 0 ? sideWidth + T.dimS : 0
     implicitWidth: label.visible ? label.implicitWidth + labelInset * 2 : sideWidth
     implicitHeight: Math.max(label.implicitHeight, symbolText.implicitHeight, valueLabel.implicitHeight)
     Text {
@@ -29,7 +29,7 @@ Button {
       anchors.verticalCenter: parent.verticalCenter
       color: label.color
       font.family: button.symbolFamily
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
     }
     Text {
       id: label
@@ -42,7 +42,7 @@ Button {
       text: button.text
       color: !button.enabled || button.muted ? T.colM : button.selected || button.activeFocus ? T.colP : T.colF
       font.family: "sans-serif"
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
       font.bold: button.selected || button.activeFocus
       elide: Text.ElideRight
       horizontalAlignment: Text.AlignHCenter
@@ -58,7 +58,7 @@ Button {
       text: button.valueText
       color: label.color
       font.family: "monospace"
-      font.pointSize: T.fontSizeB
+      font.pointSize: T.fontSizeM
     }
   }
   background: Rectangle {

@@ -9,16 +9,16 @@ Rectangle {
   property var anchorItem: null
   property string title: ""
   property Component content: null
-  readonly property real inset: T.spaceM
+  readonly property real inset: T.dimS
   readonly property real anchorY: anchorItem ? anchorItem.mapToItem(parent, 0, 0).y : menuWindow.menuY
 
   width: Math.min(380, menuWindow.width - inset * 2)
-  height: Math.min(body.implicitHeight + inset * 2, menuWindow.height - T.spaceL - inset * 2)
+  height: Math.min(body.implicitHeight + inset * 2, menuWindow.height - T.dimM - inset * 2)
   x: {
-    const beside = menuWindow.menuX + menuWindow.menuWidth + T.spaceS;
+    const beside = menuWindow.menuX + menuWindow.menuWidth + T.dimS;
     return beside + width + inset <= menuWindow.width ? beside : Math.max(inset, menuWindow.width - width - inset);
   }
-  y: Math.max(inset, Math.min(anchorY, menuWindow.height - T.spaceL - inset - height))
+  y: Math.max(inset, Math.min(anchorY, menuWindow.height - T.dimM - inset - height))
 
   // Consume blank-area clicks, but leave child controls interactive.
   MouseArea {
@@ -37,13 +37,13 @@ Rectangle {
     ColumnLayout {
       id: body
       width: parent.width
-      spacing: T.spaceM
+      spacing: T.dimS
       Text {
         Layout.fillWidth: true
         text: widget.title
         color: T.colF
         font.family: "sans-serif"
-        font.pointSize: T.fontSizeB
+        font.pointSize: T.fontSizeM
         font.bold: true
       }
       Loader {

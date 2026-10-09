@@ -126,7 +126,7 @@ Scope {
         color: T.colB
         anchors.centerIn: parent
         width: 360
-        height: lockContent.implicitHeight + T.spaceM * 2
+        height: lockContent.implicitHeight + T.dimS * 2
 
         Column {
           id: lockContent
@@ -134,9 +134,9 @@ Scope {
             top: parent.top
             left: parent.left
             right: parent.right
-            margins: T.spaceM
+            margins: T.dimS
           }
-          spacing: T.spaceM
+          spacing: T.dimS
 
           Text {
             width: parent.width
@@ -144,7 +144,7 @@ Scope {
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "monospace"
-              pointSize: T.fontSizeT
+              pointSize: T.fontSizeH
               bold: true
             }
             text: Quickshell.env("USER") || Quickshell.env("LOGNAME") || "User"
@@ -152,14 +152,14 @@ Scope {
 
           Rectangle {
             width: parent.width
-            height: T.spaceL * 2
+            height: T.dimM * 2
             color: T.colB
 
             TextInput {
               id: password
               anchors {
                 fill: parent
-                margins: T.spaceS
+                margins: T.dimS
               }
               focus: true
               enabled: !pam.active || lockModule.awaitingUserResponse
@@ -168,7 +168,7 @@ Scope {
               selectedTextColor: T.colB
               font {
                 family: "monospace"
-                pointSize: T.fontSizeH
+                pointSize: T.fontSizeL
               }
               echoMode: pam.responseRequired && pam.responseVisible ? TextInput.Normal : TextInput.Password
               inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
@@ -190,7 +190,7 @@ Scope {
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "sans-serif"
-              pointSize: T.fontSizeB
+              pointSize: T.fontSizeM
             }
             text: "Authentication failed"
           }
@@ -202,7 +202,7 @@ Scope {
             horizontalAlignment: Text.AlignHCenter
             font {
               family: "sans-serif"
-              pointSize: T.fontSizeB
+              pointSize: T.fontSizeM
             }
             text: lockModule.awaitingUserResponse ? pam.message : "Authenticating"
           }

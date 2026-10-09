@@ -18,7 +18,7 @@ Rectangle {
     return "";
   }
 
-  implicitHeight: content.implicitHeight + T.spaceM * 2
+  implicitHeight: content.implicitHeight + T.dimS * 2
   color: cardHover.hovered ? T.colB : T.colO
   HoverHandler {
     id: cardHover
@@ -52,13 +52,13 @@ Rectangle {
       left: parent.left
       right: parent.right
       top: parent.top
-      margins: T.spaceM
+      margins: T.dimS
     }
-    spacing: T.spaceS
+    spacing: T.dimS
 
     Row {
       width: parent.width
-      spacing: T.spaceM
+      spacing: T.dimS
 
       Image {
         id: notificationImage
@@ -74,7 +74,7 @@ Rectangle {
         width: parent.width - (notificationImage.visible ? 36 + parent.spacing : 0)
         color: T.colF
         font.family: "sans-serif"
-        font.pointSize: T.fontSizeB
+        font.pointSize: T.fontSizeM
         wrapMode: Text.Wrap
         textFormat: Text.RichText
 
@@ -94,7 +94,7 @@ Rectangle {
       color: T.colF
       font {
         family: "serif"
-        pointSize: T.fontSizeB
+        pointSize: T.fontSizeM
       }
       wrapMode: Text.Wrap
       textFormat: Text.PlainText
