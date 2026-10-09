@@ -83,7 +83,7 @@ c.content.headers.do_not_track = True
 # c.content.javascript.can_close_tabs = False
 # c.content.javascript.can_open_tabs_automatically = False
 # c.content.notifications.presenter = 'auto'
-# c.content.notifications.show_origin = True # Whether to show the origin URL for notifications.
+c.content.notifications.show_origin = False  # Show the origin URL for notifications.
 c.content.pdfjs = True  ## Display PDF files via PDF.js in the browser without showing a download prompt. Note that the files can still be downloaded by clicking the download button in the pdf.js viewer. With this set to `false`, the  `:prompt-open-download --pdfjs` command (bound to `<Ctrl-p>` by  default) can be used in the download prompt.
 c.content.prefers_reduced_motion = (
     True  # Request websites to minimize non-essentials animations and motion.
