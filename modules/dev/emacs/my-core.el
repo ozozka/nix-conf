@@ -66,7 +66,7 @@
   (scroll-preserve-screen-position t)
   (initial-scratch-message nil)
   (ring-bell-function 'ignore)
-  (line-spacing '(0.03 . 0.03))
+  (line-spacing '(0.072 . 0.072))
   (create-lockfiles nil)
   (make-backup-files nil)
   (auto-save-default nil)

@@ -46,9 +46,7 @@ c.completion.open_categories = [
     "filesystem",
 ]
 c.completion.quick = True
-c.completion.scrollbar.padding = (
-    0  # Padding (in pixels) of the scrollbar handle in the completion window.
-)
+c.completion.scrollbar.padding = 0  # pixels scrollbar handle in the completion window.
 c.completion.scrollbar.width = (
     theme.DIM_S
 )  # Width (in pixels) of the scrollbar in the completion window.
@@ -219,7 +217,7 @@ c.tabs.mode_on_change = "restore"  # mode when switching tabs. persists, restore
 # c.tabs.new_position.stacking = True # Stack related tabs on top of each other when opened consecutively.
 # c.tabs.new_position.related = 'next'
 c.tabs.new_position.unrelated = "last"  # last, first, next, prev
-c.tabs.padding = {"top": theme.DIM_T, "bottom": theme.DIM_T, "left": 0, "right": 0}
+c.tabs.padding = {"top": theme.DIM_T - 1, "bottom": theme.DIM_T - 1, "left": 0, "right": 0}
 # c.tabs.pinned.frozen = True ## Force pinned tabs to stay at fixed URL.
 # c.tabs.pinned.shrink = True ## Shrink pinned tabs down to their contents.
 c.tabs.position = "left"
@@ -303,8 +301,8 @@ c.fonts.tabs.selected = "bold default_size default_family"
 c.fonts.tabs.unselected = "default_size default_family"
 c.fonts.tooltip = None
 
-c.fonts.web.size.default = int(theme.FONT_SIZE_S * 4 / 3)
-c.fonts.web.size.default_fixed = int(theme.FONT_SIZE_S * 4 / 3)
+c.fonts.web.size.default = int(theme.FONT_SIZE_M * 4 / 3)
+c.fonts.web.size.default_fixed = int(theme.FONT_SIZE_M * 4 / 3)
 # c.fonts.web.size.minimum = 0
 # c.fonts.web.size.minimum_logical = 6
 c.fonts.web.family.cursive = theme.FONTS_SERIF

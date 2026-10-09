@@ -8,6 +8,10 @@
 let
   cfg = config.ozozka.theme;
 
+  mkOpt =
+    type: default: description:
+    lib.mkOption { inherit type default description; };
+
   tokens = {
     dark = rec {
       p = cfg.colors.palette.p1;
@@ -33,20 +37,6 @@ let
       ansiD = s;
       ansiE = p;
       ansiF = f;
-
-      ansi-primary = "6";
-      ansi-secondary = "1";
-      ansi-foreground = "15";
-      ansi-muted = "7";
-      ansi-overlay = "8";
-      ansi-background = "0";
-
-      t1 = 0.88;
-      t0 = 0.94;
-      hex-t1 = "e0"; # 88%
-      hex-t0 = "f0"; # 94%
-
-      blur = true;
     };
     light = rec {
       p = cfg.colors.palette.p0;
@@ -72,20 +62,6 @@ let
       ansiD = s;
       ansiE = p;
       ansiF = f;
-
-      ansi-primary = "6";
-      ansi-secondary = "1";
-      ansi-foreground = "15";
-      ansi-muted = "7";
-      ansi-overlay = "8";
-      ansi-background = "0";
-
-      t1 = 0.88;
-      t0 = 0.94;
-      hex-t1 = "e0"; # 88%
-      hex-t0 = "f0"; # 94%
-
-      blur = false;
     };
   };
 in
@@ -93,129 +69,58 @@ in
   imports = [ ./overlays.nix ];
 
   options.ozozka.theme = {
-    wallpaper = lib.mkOption {
-      type = lib.types.path;
-      default = "${pkgs.ozozka.ozozka-assets}/share/wallpapers/swirls.jpg";
-      description = "Wallpaper image.";
-    };
+    wallpaper =
+      mkOpt lib.types.path "${pkgs.ozozka.ozozka-assets}/share/wallpapers/swirls.jpg"
+        "Wallpaper image.";
 
     colors = {
-      variant = lib.mkOption {
-        type = lib.types.enum (lib.attrNames tokens);
-        default = "dark";
-        description = "Color theme variant.";
-      };
-      palette = lib.mkOption {
-        type = lib.types.attrs;
-        default = {
-          p1 = "09bea8"; # oklch(0.72 0.1296 180)
-          p0 = "026f61"; # oklch(0.486 0.0876 180)
+      variant = mkOpt (lib.types.enum (lib.attrNames tokens)) "dark" "Color theme variant.";
+      palette = mkOpt lib.types.attrs {
+        p1 = "09bea8"; # oklch(0.72 0.1296 180)
+        p0 = "026f61"; # oklch(0.486 0.0876 180)
 
-          s1 = "ff3c5b"; # oklch(0.66 0.228 18)
-          s0 = "c30d3a"; # oklch(0.522 0.204 18)
+        s1 = "ff3c5b"; # oklch(0.66 0.228 18)
+        s0 = "c30d3a"; # oklch(0.522 0.204 18)
 
-          w = "ffffff"; # oklch(1 0.0042 180)
-          o0 = "e4e8e7"; # oklch(0.928 0.0042 180)
-          m = "7e8180"; # oklch(0.60 0.0042 180)
-          o1 = "101212"; # oklch(0.18 0.0042 180)
-          b = "000000"; # oklch(0 0.0042 180)
-        };
-        description = "Colors.";
-      };
-      tokens = lib.mkOption {
-        type = lib.types.attrs;
-        default = { };
-        description = "Default colors according to my.theme.variant.";
-      };
+        w = "ffffff"; # oklch(1 0.0042 180)
+        o0 = "e4e8e7"; # oklch(0.928 0.0042 180)
+        m = "7e8180"; # oklch(0.60 0.0042 180)
+        o1 = "101212"; # oklch(0.18 0.0042 180)
+        b = "000000"; # oklch(0 0.0042 180)
+      } "Colors.";
+      tokens = mkOpt lib.types.attrs { } "Default colors according to my.theme.variant.";
     };
 
+    # ansi-primary = "6";
+    # ansi-secondary = "1";
+    # ansi-foreground = "15";
+    # ansi-muted = "7";
+    # ansi-overlay = "8";
+    # ansi-background = "0";
+
     fonts = {
-      sans = lib.mkOption {
-        type = lib.types.str;
-        default = "Inter";
-        description = "Sans font.";
-      };
-      serif = lib.mkOption {
-        type = lib.types.str;
-        default = "Manuale";
-        description = "Serif font.";
-      };
-      mono = lib.mkOption {
-        type = lib.types.str;
-        default = "Oziosevka";
-        description = "Monospace font.";
-      };
-      emoji = lib.mkOption {
-        type = lib.types.str;
-        default = "Noto Color Emoji";
-        description = "Emoji font.";
-      };
+      sans = mkOpt lib.types.str "Inter" "Sans font.";
+      serif = mkOpt lib.types.str "Manuale" "Serif font.";
+      mono = mkOpt lib.types.str "Oziosevka" "Monospace font.";
+      emoji = mkOpt lib.types.str "Noto Color Emoji" "Emoji font.";
     };
 
     font-size = {
-      t = lib.mkOption {
-        type = lib.types.int;
-        default = 90;
-        description = "Tiny font size.";
-      };
-      s = lib.mkOption {
-        type = lib.types.int;
-        default = 120;
-        description = "Small font size.";
-      };
-      m = lib.mkOption {
-        type = lib.types.int;
-        default = 150;
-        description = "Medium font size.";
-      };
-      l = lib.mkOption {
-        type = lib.types.int;
-        default = 180;
-        description = "Large font size.";
-      };
-      x = lib.mkOption {
-        type = lib.types.int;
-        default = 240;
-        description = "Extra font size.";
-      };
-      h = lib.mkOption {
-        type = lib.types.int;
-        default = 270;
-        description = "Huge font size.";
-      };
+      t = mkOpt lib.types.int 60 "Tiny font size";
+      s = mkOpt lib.types.int 90 "Small font size";
+      m = mkOpt lib.types.int 120 "Medium font size";
+      l = mkOpt lib.types.int 150 "Large font size";
+      x = mkOpt lib.types.int 180 "Extra font size";
+      h = mkOpt lib.types.int 240 "Huge font size";
     };
 
     dim = {
-      t = lib.mkOption {
-        type = lib.types.int;
-        default = 5;
-        description = "Tiny dim.";
-      };
-      s = lib.mkOption {
-        type = lib.types.int;
-        default = 12;
-        description = "Small dim.";
-      };
-      m = lib.mkOption {
-        type = lib.types.int;
-        default = 30;
-        description = "Medium dim.";
-      };
-      l = lib.mkOption {
-        type = lib.types.int;
-        default = 72;
-        description = "Large dim.";
-      };
-      x = lib.mkOption {
-        type = lib.types.int;
-        default = 144;
-        description = "Extra dim.";
-      };
-      h = lib.mkOption {
-        type = lib.types.int;
-        default = 360;
-        description = "Huge dim.";
-      };
+      t = mkOpt lib.types.int 3 "Tiny";
+      s = mkOpt lib.types.int 12 "Small";
+      m = mkOpt lib.types.int 24 "Medium";
+      l = mkOpt lib.types.int 72 "Large";
+      x = mkOpt lib.types.int 144 "Extra";
+      h = mkOpt lib.types.int 360 "Huge";
     };
   };
 
