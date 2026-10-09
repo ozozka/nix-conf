@@ -39,7 +39,7 @@ Scope {
           width: parent.width
           color: T.colF
           font {
-            family: T.fontMono
+            family: "monospace"
             pointSize: T.fontSizeH
             bold: true
           }
@@ -51,7 +51,7 @@ Scope {
           width: parent.width
           color: T.colF
           font {
-            family: T.fontSans
+            family: "sans-serif"
             pointSize: T.fontSizeB
           }
           wrapMode: Text.Wrap
@@ -64,7 +64,7 @@ Scope {
           visible: text.length > 0
           color: T.colM
           font {
-            family: T.fontSans
+            family: "sans-serif"
             pointSize: T.fontSizeB
           }
           wrapMode: Text.Wrap
@@ -77,7 +77,7 @@ Scope {
           visible: text.length > 0
           color: agent.flow?.supplementaryIsError ? T.colS : T.colM
           font {
-            family: T.fontSans
+            family: "sans-serif"
             pointSize: T.fontSizeB
           }
           wrapMode: Text.Wrap
@@ -90,7 +90,7 @@ Scope {
           visible: agent.flow?.failed ?? false
           color: T.colS
           font {
-            family: T.fontSans
+            family: "sans-serif"
             pointSize: T.fontSizeB
           }
           text: "Authentication failed"
@@ -112,7 +112,7 @@ Scope {
             selectionColor: T.colP
             selectedTextColor: T.colO
             font {
-              family: T.fontMono
+              family: "monospace"
               pointSize: T.fontSizeB
             }
             echoMode: agent.flow?.responseVisible ? TextInput.Normal : TextInput.Password
@@ -145,7 +145,7 @@ Scope {
               anchors.centerIn: parent
               color: T.colF
               font {
-                family: T.fontMono
+                family: "monospace"
                 pointSize: T.fontSizeB
               }
               text: "Cancel"
@@ -166,7 +166,7 @@ Scope {
               anchors.centerIn: parent
               color: T.colO
               font {
-                family: T.fontMono
+                family: "monospace"
                 pointSize: T.fontSizeB
                 bold: true
               }

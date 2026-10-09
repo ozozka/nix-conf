@@ -143,7 +143,7 @@ Scope {
             color: T.colF
             horizontalAlignment: Text.AlignHCenter
             font {
-              family: T.fontMono
+              family: "monospace"
               pointSize: T.fontSizeT
               bold: true
             }
@@ -167,7 +167,7 @@ Scope {
               selectionColor: T.colP
               selectedTextColor: T.colB
               font {
-                family: T.fontMono
+                family: "monospace"
                 pointSize: T.fontSizeH
               }
               echoMode: pam.responseRequired && pam.responseVisible ? TextInput.Normal : TextInput.Password
@@ -189,7 +189,7 @@ Scope {
             color: T.colS
             horizontalAlignment: Text.AlignHCenter
             font {
-              family: T.fontSans
+              family: "sans-serif"
               pointSize: T.fontSizeB
             }
             text: "Authentication failed"
@@ -201,7 +201,7 @@ Scope {
             color: T.colM
             horizontalAlignment: Text.AlignHCenter
             font {
-              family: T.fontSans
+              family: "sans-serif"
               pointSize: T.fontSizeB
             }
             text: lockModule.awaitingUserResponse ? pam.message : "Authenticating"

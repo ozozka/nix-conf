@@ -40,7 +40,7 @@ Scope {
         anchors.centerIn: parent
         text: bar.showingDate ? SV.Clock.date : SV.Clock.time
         color: T.colF
-        font.family: T.fontMono
+        font.family: "monospace"
         font.pointSize: T.fontSizeB
 
         TapHandler {

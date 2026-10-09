@@ -10,7 +10,7 @@ Text {
 
   color: T.colF
   font {
-    family: T.fontMono
+    family: "monospace"
     pointSize: T.fontSizeB
   }
   text: SV.NetworkStats.connected ? `${units.formatRate(SV.NetworkStats.totalBytesPerSecond)}` : ""

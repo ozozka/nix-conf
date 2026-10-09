@@ -24,7 +24,7 @@ Row {
         text: " 🞄 "
         color: workspace.occupied ? T.colF : T.colM
         font {
-          family: T.fontMono
+          family: "monospace"
           pointSize: T.fontSizeB
           bold: true
         }

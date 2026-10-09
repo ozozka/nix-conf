@@ -73,7 +73,7 @@ Rectangle {
       Text {
         width: parent.width - (notificationImage.visible ? 36 + parent.spacing : 0)
         color: T.colF
-        font.family: T.fontSans
+        font.family: "sans-serif"
         font.pointSize: T.fontSizeB
         wrapMode: Text.Wrap
         textFormat: Text.RichText
@@ -93,7 +93,7 @@ Rectangle {
       visible: text.length > 0
       color: T.colF
       font {
-        family: T.fontSerif
+        family: "serif"
         pointSize: T.fontSizeB
       }
       wrapMode: Text.Wrap

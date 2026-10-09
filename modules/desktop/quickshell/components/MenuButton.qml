@@ -6,7 +6,7 @@ Button {
   id: button
   property bool selected: false
   property string symbol: ""
-  property string symbolFamily: T.fontMono
+  property string symbolFamily: "monospace"
   property string valueText: ""
   property bool muted: false
   implicitHeight: T.spaceL + T.spaceS
@@ -41,7 +41,7 @@ Button {
       }
       text: button.text
       color: !button.enabled || button.muted ? T.colM : button.selected || button.activeFocus ? T.colP : T.colF
-      font.family: T.fontSans
+      font.family: "sans-serif"
       font.pointSize: T.fontSizeB
       font.bold: button.selected || button.activeFocus
       elide: Text.ElideRight
@@ -57,7 +57,7 @@ Button {
       }
       text: button.valueText
       color: label.color
-      font.family: T.fontMono
+      font.family: "monospace"
       font.pointSize: T.fontSizeB
     }
   }

@@ -42,7 +42,7 @@ Rectangle {
         Layout.fillWidth: true
         text: widget.title
         color: T.colF
-        font.family: T.fontSans
+        font.family: "sans-serif"
         font.pointSize: T.fontSizeB
         font.bold: true
       }

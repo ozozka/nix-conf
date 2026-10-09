@@ -34,10 +34,6 @@ let
       readonly property color colO: ${builtins.toJSON "#${theme.colors.tokens.o}"}
       readonly property color colB: ${builtins.toJSON "#${theme.colors.tokens.b}"}
 
-      readonly property string fontSans: ${builtins.toJSON theme.fonts.sans}
-      readonly property string fontSerif: ${builtins.toJSON theme.fonts.serif}
-      readonly property string fontMono: ${builtins.toJSON theme.fonts.mono}
-
       readonly property real fontSizeB: ${toString (theme.font-size.m / 10.0)}
       readonly property real fontSizeH: ${toString (theme.font-size.l / 10.0)}
       readonly property real fontSizeT: ${toString (theme.font-size.h / 10.0)}

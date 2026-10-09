@@ -18,7 +18,7 @@ Text {
 
   color: T.colF
   font {
-    family: T.fontMono
+    family: "monospace"
     pointSize: T.fontSizeB
   }
   text: layout

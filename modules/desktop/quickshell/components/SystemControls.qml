@@ -153,7 +153,7 @@ ColumnLayout {
 
   component SectionText: Text {
     color: T.colF
-    font.family: T.fontSans
+    font.family: "sans-serif"
     font.pointSize: T.fontSizeB
     wrapMode: Text.Wrap
   }
@@ -266,7 +266,7 @@ ColumnLayout {
       SectionText {
         Layout.preferredWidth: 52
         horizontalAlignment: Text.AlignRight
-        font.family: T.fontMono
+        font.family: "monospace"
         text: audioControl.available ? `${Math.round(audioControl.node.audio.volume * 100)}%` : "—"
         color: audioControl.available && audioControl.node.audio.muted ? T.colM : T.colF
       }
@@ -394,7 +394,7 @@ ColumnLayout {
           placeholderTextColor: T.colM
           selectionColor: T.colP
           selectedTextColor: T.colO
-          font.family: T.fontSans
+          font.family: "sans-serif"
           font.pointSize: T.fontSizeB
           background: Rectangle {
             color: T.colB
@@ -464,7 +464,7 @@ ColumnLayout {
           placeholderText: "PIN / passkey"
           color: T.colF
           placeholderTextColor: T.colM
-          font.family: T.fontMono
+          font.family: "monospace"
           background: Rectangle {
             color: T.colB
           }

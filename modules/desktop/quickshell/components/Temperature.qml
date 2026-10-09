@@ -5,7 +5,7 @@ import ".."
 Text {
   color: T.colF
   font {
-    family: T.fontMono
+    family: "monospace"
     pointSize: T.fontSizeB
   }
   text: `${Math.round(SV.TemperatureStats.celsius)}°C`

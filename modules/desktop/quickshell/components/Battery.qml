@@ -19,7 +19,7 @@ Text {
 
   color: T.colF
   font {
-    family: T.fontMono
+    family: "monospace"
     pointSize: T.fontSizeB
   }
   text: full ? "🞄" : `${formatRemaining(SV.BatteryStats.remainingSeconds)} ${Math.round(SV.BatteryStats.percentage)}

@@ -105,7 +105,7 @@ FocusScope {
       text: modelData.name
       color: resultItem.current ? T.colF : T.colM
       font.bold: resultItem.current
-      font.family: T.fontSans
+      font.family: "sans-serif"
       font.pointSize: T.fontSizeB
       elide: Text.ElideRight
     }
@@ -120,7 +120,7 @@ FocusScope {
       visible: results.count === 0
       text: "No matching applications"
       color: T.colM
-      font.family: T.fontSans
+      font.family: "sans-serif"
       font.pointSize: T.fontSizeB
     }
 
@@ -143,7 +143,7 @@ FocusScope {
       color: T.colF
       selectionColor: T.colP
       selectedTextColor: T.colO
-      font.family: T.fontSans
+      font.family: "sans-serif"
       font.pointSize: T.fontSizeB
       verticalAlignment: TextInput.AlignVCenter
       clip: true

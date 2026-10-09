@@ -227,7 +227,7 @@ Scope {
                 Layout.minimumWidth: 0
                 text: `▰ ${Math.round(SV.BatteryStats.percentage)}% · ${SV.BatteryStats.status}`
                 color: T.colM
-                font.family: T.fontSans
+                font.family: "sans-serif"
                 font.pointSize: T.fontSizeB
                 elide: Text.ElideRight
               }
@@ -236,11 +236,11 @@ Scope {
                 Text {
                   text: "⌨"
                   color: T.colM
-                  font.family: T.fontMono
+                  font.family: "monospace"
                   font.pointSize: T.fontSizeB
                 }
                 CM.Language {
-                  font.family: T.fontSans
+                  font.family: "sans-serif"
                   color: T.colM
                 }
               }

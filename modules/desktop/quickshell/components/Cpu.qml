@@ -5,7 +5,7 @@ import ".."
 Text {
   color: T.colF
   font {
-    family: T.fontMono
+    family: "monospace"
     pointSize: T.fontSizeB
   }
   text: `${SV.CpuStats.usage.toFixed(2)}%`
