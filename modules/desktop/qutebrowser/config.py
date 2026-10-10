@@ -264,9 +264,9 @@ c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
 }
 
-c.window.hide_decoration = True
-c.window.title_format = "qutebrowser"
 c.window.transparent = False
+c.window.hide_decoration = False
+c.window.title_format = "qute"
 
 c.zoom.default = "100%"
 c.zoom.levels = [
@@ -317,9 +317,7 @@ c.fonts.web.family.sans_serif = theme.FONTS_SANS
 c.fonts.web.family.serif = theme.FONTS_SERIF
 c.fonts.web.family.standard = theme.FONTS_SANS
 
-c.colors.webpage.bg = (
-    ""  # Background color for webpages if unset (or empty to use the theme's color).
-)
+c.colors.webpage.bg = "" # Background color for webpages
 c.colors.webpage.darkmode.enabled = False
 c.colors.webpage.preferred_color_scheme = "dark"  # auto, light, dark
 
