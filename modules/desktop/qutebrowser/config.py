@@ -217,7 +217,12 @@ c.tabs.mode_on_change = "restore"  # mode when switching tabs. persists, restore
 # c.tabs.new_position.stacking = True # Stack related tabs on top of each other when opened consecutively.
 # c.tabs.new_position.related = 'next'
 c.tabs.new_position.unrelated = "last"  # last, first, next, prev
-c.tabs.padding = {"top": theme.DIM_T - 1, "bottom": theme.DIM_T - 1, "left": 0, "right": 0}
+c.tabs.padding = {
+    "top": theme.DIM_T - 1,
+    "bottom": theme.DIM_T - 1,
+    "left": 0,
+    "right": 0,
+}
 # c.tabs.pinned.frozen = True ## Force pinned tabs to stay at fixed URL.
 # c.tabs.pinned.shrink = True ## Shrink pinned tabs down to their contents.
 c.tabs.position = "left"
