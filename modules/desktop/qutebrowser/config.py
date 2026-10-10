@@ -317,7 +317,7 @@ c.fonts.web.family.sans_serif = theme.FONTS_SANS
 c.fonts.web.family.serif = theme.FONTS_SERIF
 c.fonts.web.family.standard = theme.FONTS_SANS
 
-c.colors.webpage.bg = "" # Background color for webpages
+c.colors.webpage.bg = ""  # Background color for webpages
 c.colors.webpage.darkmode.enabled = False
 c.colors.webpage.preferred_color_scheme = "dark"  # auto, light, dark
 
