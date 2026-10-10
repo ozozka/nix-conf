@@ -74,6 +74,7 @@ pkgs.treefmt.withConfig {
           "--semi=true"
           "--single-quote=false"
           "--trailing-comma=all"
+          "--prose-wrap=always"
         ];
       };
 
